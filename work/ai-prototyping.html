@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Prototyping Workflow — Dhiraj More</title>
+  <meta name="description" content="Case study: turning a Figma design system into an AI-ready UI kit so prototypes match production on the first try.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232f5bea'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='700' font-size='28' fill='white'>DM</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo">Dhiraj More<span>.</span></a>
+    <div class="nav-links">
+      <a href="../index.html#work" class="keep">All work</a>
+      <button class="theme-btn" aria-label="Toggle dark mode">☾</button>
+    </div>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="wrap">
+    <a href="../index.html#work" class="back">← Back to work</a>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap"><span class="tag accent">AI workflow</span><span class="tag">Design systems</span><span class="tag">Kaabil Finance</span></div>
+    <h1 class="serif">Prototypes that match production UI on the first try</h1>
+    <p class="lead">Every AI-generated prototype looked "almost right" and took several rounds of screenshots and corrections. I turned our design system into a reusable UI kit the AI uses by default, so the first draft already looks like the real product.</p>
+    <div class="meta">
+      <div><span>Role</span><b>Product Manager (solo)</b></div>
+      <div><span>Timeline</span><b>1 week · 2026</b></div>
+      <div><span>Users</span><b>PMs, designers, engineers</b></div>
+      <div><span>Tools</span><b>Figma, Claude Code, HTML/CSS</b></div>
+    </div>
+    <div class="note">Company data is anonymised. Figures are illustrative.</div>
+    <div class="impact">
+      <div><b>4–5 → 1</b><span>review rounds per prototype</span></div>
+      <div><b>Days → hrs</b><span>from idea to a clickable screen</span></div>
+      <div><b>1 source</b><span>of UI truth for prototypes</span></div>
+    </div>
+  </div>
+</header>
+
+<article class="wrap">
+  <div class="cs-body">
+    <h2 class="serif"><small>01 · Context</small>Prototypes are how we align</h2>
+    <p>Our platform covers origination, loan management, HRMS and collections. Before engineering builds a feature, we need a prototype that stakeholders like branch ops and credit heads can react to. AI tools made prototypes fast to produce, but they didn't look like <em>our</em> product.</p>
+
+    <h2 class="serif"><small>02 · Problem</small>"Almost right" is expensive</h2>
+    <ul>
+      <li>Each prototype took <strong>4–5 rounds</strong> of screenshots and corrections to match our colours, tables, forms and spacing.</li>
+      <li>Stakeholders got distracted by visual differences instead of reviewing the workflow.</li>
+      <li>Engineers couldn't tell which parts of the prototype were intentional and which were AI mistakes.</li>
+    </ul>
+
+    <h2 class="serif"><small>03 · Insight</small>The AI wasn't missing skill, it was missing context</h2>
+    <p>The design system already existed in Figma. What was missing was a version of it the AI could <strong>read and reuse</strong>: design tokens, component classes, and a starter template.</p>
+
+    <h2 class="serif"><small>04 · Solution</small>A design system the AI can use</h2>
+    <div class="flow"><div>Figma design system</div><i>→</i><div>Design tokens (CSS)</div><i>→</i><div>Component classes</div><i>→</i><div>Template + scaffolder</div><i>→</i><div>AI skill</div></div>
+    <ul>
+      <li><strong>Tokens:</strong> colours, type, spacing and radii pulled from Figma into one CSS file.</li>
+      <li><strong>Components:</strong> tables, forms, status chips, sidebars and cards written as reusable classes.</li>
+      <li><strong>Scaffolder:</strong> a one-line command creates a new prototype that is already in the company's style.</li>
+      <li><strong>Packaged as an AI skill:</strong> the assistant uses it automatically whenever someone asks for a company screen.</li>
+    </ul>
+
+    <h2 class="serif"><small>05 · Impact</small>What changed</h2>
+    <ul>
+      <li>Prototypes now need about <strong>one review round</strong> instead of 4–5.</li>
+      <li>Reviews focus on the <strong>workflow and edge cases</strong>, not pixels.</li>
+      <li>Prototypes are attached to Jira tickets as clear references for engineering.</li>
+    </ul>
+
+    <h2 class="serif"><small>06 · Learnings</small>What I took away</h2>
+    <ul>
+      <li><strong>With AI, better context beats better prompts.</strong> Investing once in a shared foundation paid off on every prototype after it.</li>
+      <li><strong>Keep the kit in sync.</strong> When the design system changes, the kit has to change too. Next step: make that sync automatic.</li>
+    </ul>
+
+    <div class="next-cs">
+      <div><span>Next case study</span><b class="serif">Fixing lockouts and role changes</b></div>
+      <a href="access-role-management.html" class="btn primary">Read next →</a>
+    </div>
+  </div>
+</article>
+
+<footer><div class="wrap"><span>© <span data-year></span> Dhiraj More</span><a href="../index.html">Home</a></div></footer>
+<script src="../script.js"></script>
+</body>
+</html>
