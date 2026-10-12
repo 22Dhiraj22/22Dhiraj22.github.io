@@ -88,6 +88,11 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
   if (!base || !N) return stage.removeAttribute("data-frames");
 
   const FACE_X = 0.48, FACE_Y = 0.33; // her face position inside a frame (0..1)
+  // Phones: keeping every full-size frame decoded can exceed the browser's memory limit and crash the
+  // tab, so use every 2nd frame at a smaller size there.
+  const lite = matchMedia("(pointer: coarse)").matches || Math.min(screen.width, screen.height) < 600;
+  const STEP = lite ? 2 : 1;
+  const LO = C - Math.floor(C / STEP) * STEP, HI = C + Math.floor((N - 1 - C) / STEP) * STEP;
   const frames = new Array(N), ctx = canvas.getContext("2d");
   let backdrop = "#0a0a0a", target = C, cur = C, drawn = -1, lastMove = -1e9, lastT = 0;
   let px = null, py = null, box = null, dirty = true;
@@ -98,7 +103,7 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
     img.onerror = () => res(false);
     img.onload = async () => {
       // Decode up front so showing a frame never stalls the animation
-      try { frames[i] = await createImageBitmap(img); } catch (e) { try { await img.decode(); } catch (_) {} frames[i] = img; }
+      try { frames[i] = await (lite ? createImageBitmap(img, { resizeWidth: 640, resizeHeight: Math.round(640 * img.naturalHeight / img.naturalWidth), resizeQuality: "high" }) : createImageBitmap(img)); } catch (e) { try { await img.decode(); } catch (_) {} frames[i] = img; }
       dirty = true; res(true);
     };
     img.src = base + String(i).padStart(3, "0") + ".jpg";
@@ -106,8 +111,12 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
   const nearest = i => { for (let d = 0; d < N; d++) { if (frames[i - d]) return frames[i - d]; if (frames[i + d]) return frames[i + d]; } };
 
   // Where the frame is drawn (device px) — also gives us her face position on screen
+  let lastW = 0, lastH = 0;
   function layout() {
     const f = frames[C] || nearest(C); if (!f) return;
+    // Mobile browsers fire resize when the address bar hides; only re-size the canvas when it really changed
+    if (canvas.clientWidth === lastW && Math.abs(canvas.clientHeight - lastH) < 2 && box) return;
+    lastW = canvas.clientWidth; lastH = canvas.clientHeight;
     const d = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.round(canvas.clientWidth * d); canvas.height = Math.round(canvas.clientHeight * d);
     const narrow = canvas.clientWidth < 860, cw = canvas.width, ch = canvas.height;
@@ -127,11 +136,11 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
     const reach = dx < 0 ? Math.max(fx - r.left, 240) : Math.max(r.right - fx, 240);
     const k = Math.min(Math.abs(dx) / (reach * 0.9), 1);
     const eased = 1 - Math.pow(1 - k, 1.6);            // responsive near her, gentle at the edges
-    target = dx < 0 ? C - C * eased : C + (N - 1 - C) * eased;
+    target = dx < 0 ? C - (C - LO) * eased : C + (HI - C) * eased;
   }
 
   function paint(pos) {
-    const i0 = Math.floor(pos), i1 = Math.min(i0 + 1, N - 1), a = pos - i0;
+    const i0 = Math.min(C + Math.floor((pos - C) / STEP) * STEP, HI), i1 = Math.min(i0 + STEP, HI), a = (pos - i0) / STEP;
     const f0 = frames[i0] || nearest(i0), f1 = frames[i1] || f0;
     const { x, y, w, h } = box;
     ctx.globalAlpha = 1; ctx.fillStyle = backdrop; ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -147,13 +156,13 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
     }
   }
 
-  let backdropRGB = "10,10,10";
+  let backdropRGB = "10,10,10", onScreen = true;
   function tick(t) {
     const dt = Math.min((t - lastT) / 1000 || 0.016, 0.05); lastT = t;
     if (t - lastMove > 4000) target = C + Math.sin(t / 1600) * (N * 0.32);  // idle / touch: glance around
     cur += (target - cur) * (1 - Math.exp(-dt * 10));                     // smooth, frame-rate independent
-    cur = Math.min(Math.max(cur, 0), N - 1);
-    if (box && (dirty || Math.abs(cur - drawn) > 0.004)) { paint(cur); drawn = cur; dirty = false; }
+    cur = Math.min(Math.max(cur, LO), HI);
+    if (box && onScreen && (dirty || Math.abs(cur - drawn) > 0.004)) { paint(cur); drawn = cur; dirty = false; }
     requestAnimationFrame(tick);
   }
 
@@ -170,11 +179,13 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
     addEventListener("resize", () => { layout(); aim(); });
     addEventListener("pointermove", e => { px = e.clientX; py = e.clientY; lastMove = performance.now(); aim(); }, { passive: true });
     addEventListener("scroll", aim, { passive: true });
+    // Don't repaint while the hero is scrolled out of view (saves battery on phones)
+    if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; dirty = true; }).observe(stage);
     requestAnimationFrame(tick);
     // Load the rest coarse-to-fine so the full turn range is available early
     const order = [];
-    for (const step of [8, 4, 2, 1]) for (let i = 0; i < N; i += step) if (!order.includes(i) && i !== C) order.push(i);
-    if (!order.includes(N - 1) && N - 1 !== C) order.splice(1, 0, N - 1);
+    for (const step of [8, 4, 2, 1]) for (let i = LO; i <= HI; i += step * STEP) if (!order.includes(i) && i !== C) order.push(i);
+    if (!order.includes(HI) && HI !== C) order.splice(1, 0, HI);
     (async () => { for (let k = 0; k < order.length; k += 6) await Promise.all(order.slice(k, k + 6).map(load)); })();
   });
 })();
