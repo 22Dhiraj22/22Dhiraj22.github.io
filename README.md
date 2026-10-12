@@ -10,6 +10,6 @@ The hero background uses 48 frames from an AI video (`assets/hero/000.jpg` … `
 To swap in a new character video (it must start looking far LEFT and end looking far RIGHT, with a static camera and a dark plain background):
 ```
 rm assets/hero/*.jpg
-swift tools/extract-frames.swift ~/Downloads/new-video.mp4 assets/hero 48 1280
+swift tools/extract-frames.swift ~/Downloads/new-video.mp4 assets/hero 1000 0.2 0.95
 ```
-If the face isn't centred in the new video, adjust `CHAR_X` in `script.js`.
+That extracts every frame. Then drop blink frames and long frozen holds (they feel laggy), renumber 000…, and set `data-count` and `data-center` (the frame looking straight at the camera) on the hero in `index.html`. Adjust `FACE_X`/`FACE_Y` in `script.js` if her face sits elsewhere in the frame.

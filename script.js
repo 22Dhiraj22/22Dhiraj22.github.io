@@ -77,69 +77,104 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
   })();
 })();
 
-// Character mode (the "AI character" look): assets/hero/000.jpg … 047.jpg are frames from a clip
-// where she turns from looking far LEFT (first) to far RIGHT (last). The cursor's X position picks
-// the frame, so she appears to follow it. If the frames can't load, the drawn SVG character shows.
+// Character mode (the "AI character" look): assets/hero/000.jpg … are frames from a clip where she
+// turns from looking far LEFT (first) to far RIGHT (last); frame data-center looks straight ahead.
+// The frame is chosen from where the cursor is relative to HER FACE, and neighbouring frames are
+// cross-faded so the turn is smooth. If the frames can't load, the drawn SVG character shows.
 (function () {
   const stage = document.querySelector(".stage"), canvas = document.getElementById("stage-canvas");
   if (!stage || !canvas) return;
-  const base = stage.dataset.frames, N = +stage.dataset.count || 0;
+  const base = stage.dataset.frames, N = +stage.dataset.count || 0, C = +stage.dataset.center || (N >> 1);
   if (!base || !N) return stage.removeAttribute("data-frames");
 
-  const frames = new Array(N);
-  const ctx = canvas.getContext("2d");
-  const CHAR_X = 0.56; // where her face sits horizontally in the video frame (0..1)
-  let target = 0.5, cur = 0.5, last = -1, lastMove = 0, backdrop = null, started = false;
+  const FACE_X = 0.48, FACE_Y = 0.33; // her face position inside a frame (0..1)
+  const frames = new Array(N), ctx = canvas.getContext("2d");
+  let backdrop = "#0a0a0a", target = C, cur = C, drawn = -1, lastMove = -1e9, lastT = 0;
+  let px = null, py = null, box = null, dirty = true;
 
   const load = i => new Promise(res => {
     const img = new Image();
-    img.onload = () => { frames[i] = img; res(true); };
+    img.decoding = "async";
     img.onerror = () => res(false);
+    img.onload = async () => {
+      // Decode up front so showing a frame never stalls the animation
+      try { frames[i] = await createImageBitmap(img); } catch (e) { try { await img.decode(); } catch (_) {} frames[i] = img; }
+      dirty = true; res(true);
+    };
     img.src = base + String(i).padStart(3, "0") + ".jpg";
   });
+  const nearest = i => { for (let d = 0; d < N; d++) { if (frames[i - d]) return frames[i - d]; if (frames[i + d]) return frames[i + d]; } };
 
-  // Nearest frame that has loaded so far
-  const nearest = idx => {
-    for (let d = 0; d < N; d++) {
-      if (frames[idx - d]) return frames[idx - d];
-      if (frames[idx + d]) return frames[idx + d];
-    }
-  };
-
-  const size = () => { const d = devicePixelRatio || 1; canvas.width = canvas.clientWidth * d; canvas.height = canvas.clientHeight * d; last = -1; };
-
-  function draw(t) {
-    if (t && t - lastMove > 3000) target = 0.5 + 0.42 * Math.sin(t / 1800); // idle / touch: glance around
-    cur += (target - cur) * 0.12;
-    const idx = Math.round(Math.min(Math.max(cur, 0), 1) * (N - 1));
-    const f = nearest(idx);
-    if (f && (idx !== last || f !== frames[last])) {
-      const cw = canvas.width, ch = canvas.height, d = devicePixelRatio || 1;
-      const narrow = canvas.clientWidth < 860;
-      const s = (narrow ? Math.min(ch, 460 * d) : ch * 0.9) / f.naturalHeight; // most of the height (desktop) or a 460px band (mobile)
-      const dw = f.naturalWidth * s, dh = f.naturalHeight * s;
-      const anchor = narrow ? 0.5 : 0.76;                                  // keep her clear of the text on desktop
-      ctx.fillStyle = backdrop; ctx.fillRect(0, 0, cw, ch);
-      ctx.drawImage(f, cw * anchor - dw * CHAR_X, ch - dh, dw, dh);
-      last = idx;
-    }
-    requestAnimationFrame(draw);
+  // Where the frame is drawn (device px) — also gives us her face position on screen
+  function layout() {
+    const f = frames[C] || nearest(C); if (!f) return;
+    const d = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(canvas.clientWidth * d); canvas.height = Math.round(canvas.clientHeight * d);
+    const narrow = canvas.clientWidth < 860, cw = canvas.width, ch = canvas.height;
+    const s = (narrow ? Math.min(ch, 460 * d) : ch * 0.9) / f.height;
+    const w = f.width * s, h = f.height * s;
+    const x = cw * (narrow ? 0.5 : 0.76) - w * FACE_X, y = ch - h;
+    box = { x, y, w, h, d };
+    dirty = true;
   }
 
-  // Centre frame first so she appears quickly, then the rest
-  const mid = Math.floor(N / 2);
-  load(mid).then(ok => {
+  // Cursor → frame index, measured from her face: on her face = look straight, further away = turn more
+  function aim() {
+    if (px == null || !box) return;
+    const r = canvas.getBoundingClientRect();
+    const fx = r.left + (box.x + box.w * FACE_X) / box.d;
+    const dx = px - fx;
+    const reach = dx < 0 ? Math.max(fx - r.left, 240) : Math.max(r.right - fx, 240);
+    const k = Math.min(Math.abs(dx) / (reach * 0.9), 1);
+    const eased = 1 - Math.pow(1 - k, 1.6);            // responsive near her, gentle at the edges
+    target = dx < 0 ? C - C * eased : C + (N - 1 - C) * eased;
+  }
+
+  function paint(pos) {
+    const i0 = Math.floor(pos), i1 = Math.min(i0 + 1, N - 1), a = pos - i0;
+    const f0 = frames[i0] || nearest(i0), f1 = frames[i1] || f0;
+    const { x, y, w, h } = box;
+    ctx.globalAlpha = 1; ctx.fillStyle = backdrop; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(f0, x, y, w, h);
+    if (a > 0.02 && f1 !== f0) { ctx.globalAlpha = a; ctx.drawImage(f1, x, y, w, h); ctx.globalAlpha = 1; }
+    // Soften the frame's left/right edges into the backdrop so no seam shows
+    const fade = w * 0.08;
+    for (const [gx, from, to] of [[x, 1, 0], [x + w - fade, 0, 1]]) {
+      const g = ctx.createLinearGradient(gx, 0, gx + fade, 0);
+      g.addColorStop(0, `rgba(${backdropRGB},${from})`); g.addColorStop(1, `rgba(${backdropRGB},${to})`);
+      ctx.fillStyle = g; ctx.fillRect(gx, y, fade, h);
+    }
+  }
+
+  let backdropRGB = "10,10,10";
+  function tick(t) {
+    const dt = Math.min((t - lastT) / 1000 || 0.016, 0.05); lastT = t;
+    if (t - lastMove > 4000) target = C + Math.sin(t / 1600) * (N * 0.32);  // idle / touch: glance around
+    cur += (target - cur) * (1 - Math.exp(-dt * 10));                     // smooth, frame-rate independent
+    cur = Math.min(Math.max(cur, 0), N - 1);
+    if (box && (dirty || Math.abs(cur - drawn) > 0.004)) { paint(cur); drawn = cur; dirty = false; }
+    requestAnimationFrame(tick);
+  }
+
+  load(C).then(ok => {
     if (!ok) return stage.removeAttribute("data-frames");
     // Match the page background to the video's backdrop so there's no visible edge
     const p = document.createElement("canvas"); p.width = p.height = 1;
-    const pc = p.getContext("2d"); pc.drawImage(frames[mid], 6, 6, 1, 1, 0, 0, 1, 1);
+    const pc = p.getContext("2d"); pc.drawImage(frames[C], 4, 4, 1, 1, 0, 0, 1, 1);
     const [r, g, b] = pc.getImageData(0, 0, 1, 1).data;
-    backdrop = `rgb(${r},${g},${b})`;
+    backdropRGB = `${r},${g},${b}`; backdrop = `rgb(${backdropRGB})`;
     stage.style.setProperty("--bg", backdrop);
     stage.classList.add("has-video"); // show the canvas first so it has a size to measure
-    addEventListener("resize", size); size();
-    addEventListener("pointermove", e => { target = e.clientX / innerWidth; lastMove = performance.now(); }, { passive: true });
-    if (!started) { started = true; requestAnimationFrame(draw); }
-    for (let i = 0; i < N; i++) if (i !== mid) load(i);
+    layout();
+    addEventListener("resize", () => { layout(); aim(); });
+    addEventListener("pointermove", e => { px = e.clientX; py = e.clientY; lastMove = performance.now(); aim(); }, { passive: true });
+    addEventListener("scroll", aim, { passive: true });
+    requestAnimationFrame(tick);
+    // Load the rest coarse-to-fine so the full turn range is available early
+    const order = [];
+    for (const step of [8, 4, 2, 1]) for (let i = 0; i < N; i += step) if (!order.includes(i) && i !== C) order.push(i);
+    if (!order.includes(N - 1) && N - 1 !== C) order.splice(1, 0, N - 1);
+    (async () => { for (let k = 0; k < order.length; k += 6) await Promise.all(order.slice(k, k + 6).map(load)); })();
   });
 })();
