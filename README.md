@@ -4,8 +4,12 @@ Live at https://22dhiraj22.github.io
 
 Plain HTML/CSS/JS, no build step. Edit `index.html` or `work/*.html`, commit and push; GitHub Pages redeploys automatically.
 
-## Hero character video (optional)
-Put a clip at `assets/hero.mp4` and the hero switches from the drawn character to the video automatically.
-- The character should start looking **far left** and end looking **far right**. The cursor's left-right position picks the frame.
-- Use a static camera and a plain dark background (around #0e0f12), with the character on the **right side** of the frame. The left side sits behind the text.
-- Make it 16:9, 4–6 seconds, and under ~8 MB.
+## Hero character (cursor-following)
+The hero background uses 48 frames from an AI video (`assets/hero/000.jpg` … `047.jpg`). The cursor's left-right position picks the frame, so the character appears to follow it. If the frames fail to load, a drawn SVG character is shown instead.
+
+To swap in a new character video (it must start looking far LEFT and end looking far RIGHT, with a static camera and a dark plain background):
+```
+rm assets/hero/*.jpg
+swift tools/extract-frames.swift ~/Downloads/new-video.mp4 assets/hero 48 1280
+```
+If the face isn't centred in the new video, adjust `CHAR_X` in `script.js`.
