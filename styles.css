@@ -199,3 +199,30 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
   .hero { padding: 64px 0 48px; }
   .card { padding: 22px; }
 }
+
+/* Hero buddy: illustrated character that follows the cursor */
+:root { --skin: #f4c7a3; --skin-d: #e3a882; --hair: #2a1c19; --iris: #3a2a24; --blush: #ff8fa3; }
+.hero-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 32px; align-items: center; }
+.buddy { position: relative; max-width: 420px; justify-self: end; width: 100%; }
+.buddy svg { width: 100%; height: auto; display: block; overflow: visible; }
+.b-halo { fill: var(--accent-soft); }
+.b-spark { fill: var(--accent); opacity: .5; animation: b-float 5s ease-in-out infinite; }
+.b-spark.s2 { animation-delay: -1.6s; } .b-spark.s3 { animation-delay: -3.2s; }
+.b-hair { fill: var(--hair); }
+.b-skin { fill: var(--skin); } .b-skin-d { fill: var(--skin-d); }
+.b-top { fill: var(--accent); } .b-collar { fill: var(--bg); }
+.b-white { fill: #fff; } .b-iris { fill: var(--iris); }
+.b-blush { fill: var(--blush); opacity: .35; }
+.b-brow, .b-nose, .b-mouth { fill: none; stroke: var(--iris); stroke-width: 4; stroke-linecap: round; }
+.b-nose { stroke: var(--skin-d); stroke-width: 3.5; }
+.b-eye { transform-box: fill-box; transform-origin: center; transition: transform .08s ease; }
+.buddy.blink .b-eye { transform: scaleY(.1); }
+.buddy.happy .b-blush { opacity: .6; }
+#b-body { animation: b-breathe 4.5s ease-in-out infinite; transform-origin: 200px 460px; }
+@keyframes b-breathe { 50% { transform: translateY(-4px); } }
+@keyframes b-float { 50% { transform: translateY(-10px); } }
+@media (prefers-reduced-motion: reduce) { #b-body, .b-spark { animation: none; } }
+@media (max-width: 860px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .buddy { max-width: 260px; justify-self: center; order: -1; margin-bottom: -8px; }
+}
