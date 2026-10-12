@@ -77,102 +77,142 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
   })();
 })();
 
-// Character mode (the "AI character" look): assets/hero/000.jpg … are frames from a clip where she
-// turns from looking far LEFT (first) to far RIGHT (last); frame data-center looks straight ahead.
-// The frame is chosen from where the cursor is relative to HER FACE, and neighbouring frames are
-// cross-faded so the turn is smooth. If the frames can't load, the drawn SVG character shows.
+// Character mode (the "AI character" look): assets/hero/000.jpg … are frames from several AI clips of the
+// same woman turning her head. poses.json gives each frame's head direction as [x, y] in degrees
+// (x: − screen-left … + screen-right, y: − up … + down), measured per frame with a face-pose model.
+// The cursor's direction from HER FACE sets a target direction, a spring eases toward it, and the frame
+// whose pose is closest is shown, cross-fading between frames. If the frames can't load, the SVG shows.
 (function () {
   const stage = document.querySelector(".stage"), canvas = document.getElementById("stage-canvas");
   if (!stage || !canvas) return;
-  const base = stage.dataset.frames, N = +stage.dataset.count || 0, C = +stage.dataset.center || (N >> 1);
-  if (!base || !N) return stage.removeAttribute("data-frames");
+  const base = stage.dataset.frames;
+  if (!base) return;
 
-  const FACE_X = 0.48, FACE_Y = 0.33; // her face position inside a frame (0..1)
-  // Phones: keeping every full-size frame decoded can exceed the browser's memory limit and crash the
-  // tab, so use every 2nd frame at a smaller size there.
+  const FACE_X = 0.51, FACE_Y = 0.27;  // her face position inside a frame (0..1)
+  const Y_WEIGHT = 1.3;                // vertical mismatch counts a bit more than horizontal
+  // Phones: keep fewer, smaller frames decoded so the browser doesn't run out of memory
   const lite = matchMedia("(pointer: coarse)").matches || Math.min(screen.width, screen.height) < 600;
-  const STEP = lite ? 2 : 1;
-  const LO = C - Math.floor(C / STEP) * STEP, HI = C + Math.floor((N - 1 - C) / STEP) * STEP;
-  const frames = new Array(N), ctx = canvas.getContext("2d");
-  let backdrop = "#0a0a0a", target = C, cur = C, drawn = -1, lastMove = -1e9, lastT = 0;
-  let px = null, py = null, box = null, dirty = true;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ctx = canvas.getContext("2d");
+  let poses = [], frames = [], box = null, dirty = true, onScreen = true, backdrop = "#3a0710";
+  let tx = 0, ty = 0, x = 0, y = 0, vx = 0, vy = 0, px = null, py = null, lastMove = -1e9, lastT = 0;
+  let shown = -1, prev = -1, fade = 1, drawnX = 1e9, drawnY = 1e9;
 
   const load = i => new Promise(res => {
     const img = new Image();
     img.decoding = "async";
     img.onerror = () => res(false);
     img.onload = async () => {
-      // Decode up front so showing a frame never stalls the animation
-      try { frames[i] = await (lite ? createImageBitmap(img, { resizeWidth: 640, resizeHeight: Math.round(640 * img.naturalHeight / img.naturalWidth), resizeQuality: "high" }) : createImageBitmap(img)); } catch (e) { try { await img.decode(); } catch (_) {} frames[i] = img; }
+      // Decode up front so switching frames never stalls the animation
+      try { frames[i] = await (lite ? createImageBitmap(img, { resizeWidth: 560, resizeHeight: Math.round(560 * img.naturalHeight / img.naturalWidth), resizeQuality: "high" }) : createImageBitmap(img)); }
+      catch (e) { try { await img.decode(); } catch (_) {} frames[i] = img; }
       dirty = true; res(true);
     };
     img.src = base + String(i).padStart(3, "0") + ".jpg";
   });
-  const nearest = i => { for (let d = 0; d < N; d++) { if (frames[i - d]) return frames[i - d]; if (frames[i + d]) return frames[i + d]; } };
+
+  // Loaded frame whose pose is closest to (gx, gy)
+  function closest(gx, gy) {
+    let best = -1, bd = Infinity;
+    for (let i = 0; i < poses.length; i++) {
+      if (!frames[i]) continue;
+      const dx = poses[i][0] - gx, dy = (poses[i][1] - gy) * Y_WEIGHT, d = dx * dx + dy * dy;
+      if (d < bd) { bd = d; best = i; }
+    }
+    return [best, bd];
+  }
+  const dist = (i, gx, gy) => { const dx = poses[i][0] - gx, dy = (poses[i][1] - gy) * Y_WEIGHT; return dx * dx + dy * dy; };
 
   // Where the frame is drawn (device px) — also gives us her face position on screen
   let lastW = 0, lastH = 0;
   function layout() {
-    const f = frames[C] || nearest(C); if (!f) return;
+    const f = frames[shown]; if (!f) return;
     // Mobile browsers fire resize when the address bar hides; only re-size the canvas when it really changed
     if (canvas.clientWidth === lastW && Math.abs(canvas.clientHeight - lastH) < 2 && box) return;
     lastW = canvas.clientWidth; lastH = canvas.clientHeight;
     const d = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.round(canvas.clientWidth * d); canvas.height = Math.round(canvas.clientHeight * d);
     const narrow = canvas.clientWidth < 860, cw = canvas.width, ch = canvas.height;
-    const s = (narrow ? Math.min(ch, 460 * d) : ch * 0.9) / f.height;
-    const w = f.width * s, h = f.height * s;
-    const x = cw * (narrow ? 0.5 : 0.76) - w * FACE_X, y = ch - h;
-    box = { x, y, w, h, d };
+    const h = narrow ? Math.min(ch, 460 * d) : ch * 0.86, w = f.width * h / f.height;
+    box = { x: Math.round(cw * (narrow ? 0.5 : 0.72) - w * FACE_X), y: ch - h, w, h, d };
     dirty = true;
   }
 
-  // Cursor → frame index, measured from her face: on her face = look straight, further away = turn more
+  // Cursor → target direction in degrees, as if she were turning to look at the cursor a little way
+  // in front of the screen: small moves near her face matter, far away it eases toward full profile.
   function aim() {
     if (px == null || !box) return;
     const r = canvas.getBoundingClientRect();
-    const fx = r.left + (box.x + box.w * FACE_X) / box.d;
-    const dx = px - fx;
-    const reach = dx < 0 ? Math.max(fx - r.left, 240) : Math.max(r.right - fx, 240);
-    const k = Math.min(Math.abs(dx) / (reach * 0.9), 1);
-    const eased = 1 - Math.pow(1 - k, 1.6);            // responsive near her, gentle at the edges
-    target = dx < 0 ? C - (C - LO) * eased : C + (HI - C) * eased;
+    const fx = r.left + (box.x + box.w * FACE_X) / box.d, fy = r.top + (box.y + box.h * FACE_Y) / box.d;
+    const depth = Math.max(innerWidth, 900) * 0.3, deg = 180 / Math.PI;
+    tx = Math.max(-62, Math.min(62, Math.atan2(px - fx, depth) * deg * 1.1));
+    // Up/down: the clips have only a few strongly tilted poses, so ease in gently near her eye line
+    const ay = Math.atan2(py - fy, depth * 1.4) * deg;
+    ty = Math.max(-30, Math.min(30, Math.sign(ay) * Math.pow(Math.abs(ay) / 30, 1.5) * 30));
   }
 
-  function paint(pos) {
-    const i0 = Math.min(C + Math.floor((pos - C) / STEP) * STEP, HI), i1 = Math.min(i0 + STEP, HI), a = (pos - i0) / STEP;
-    const f0 = frames[i0] || nearest(i0), f1 = frames[i1] || f0;
-    const { x, y, w, h } = box;
-    ctx.globalAlpha = 1; ctx.fillStyle = backdrop; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(f0, x, y, w, h);
-    if (a > 0.02 && f1 !== f0) { ctx.globalAlpha = a; ctx.drawImage(f1, x, y, w, h); ctx.globalAlpha = 1; }
-    // Soften the frame's left/right edges into the backdrop so no seam shows
-    const fade = w * 0.08;
-    for (const [gx, from, to] of [[x, 1, 0], [x + w - fade, 0, 1]]) {
-      const g = ctx.createLinearGradient(gx, 0, gx + fade, 0);
-      g.addColorStop(0, `rgba(${backdropRGB},${from})`); g.addColorStop(1, `rgba(${backdropRGB},${to})`);
-      ctx.fillStyle = g; ctx.fillRect(gx, y, fade, h);
+  function draw(img, alpha) {
+    const { x: bx, y: by, w, h } = box, cw = canvas.width, fw = img.width, fh = img.height;
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(img, bx, by, w, h);
+    // The frame's backdrop is a smooth gradient: stretch its outer edge pixels to fill the rest of the hero
+    if (bx > 0) ctx.drawImage(img, 0, 0, 1, fh, 0, by, bx + 1, h);
+    if (bx + w < cw) ctx.drawImage(img, fw - 1, 0, 1, fh, bx + w - 1, by, cw - bx - w + 1, h);
+    if (by > 0) {
+      ctx.drawImage(img, 0, 0, fw, 1, bx, 0, w, by + 1);
+      if (bx > 0) ctx.drawImage(img, 0, 0, 1, 1, 0, 0, bx + 1, by + 1);
+      if (bx + w < cw) ctx.drawImage(img, fw - 1, 0, 1, 1, bx + w - 1, 0, cw - bx - w + 1, by + 1);
     }
   }
+  function paint() {
+    ctx.imageSmoothingQuality = "high";
+    if (fade < 1 && frames[prev]) { draw(frames[prev], 1); draw(frames[shown], fade); }
+    else draw(frames[shown], 1);
+    ctx.globalAlpha = 1;
+  }
 
-  let backdropRGB = "10,10,10", onScreen = true;
   function tick(t) {
     const dt = Math.min((t - lastT) / 1000 || 0.016, 0.05); lastT = t;
-    if (t - lastMove > 4000) target = C + Math.sin(t / 1600) * (N * 0.32);  // idle / touch: glance around
-    cur += (target - cur) * (1 - Math.exp(-dt * 10));                     // smooth, frame-rate independent
-    cur = Math.min(Math.max(cur, LO), HI);
-    if (box && onScreen && (dirty || Math.abs(cur - drawn) > 0.004)) { paint(cur); drawn = cur; dirty = false; }
+    if (!reduce && t - lastMove > 4000) {                  // idle / touch: look around on her own
+      tx = Math.sin(t / 1900) * 42; ty = Math.sin(t / 2600 + 1) * 10;
+    }
+    // Critically damped spring: starts and stops softly, never overshoots, frame-rate independent
+    const k = 60, damp = 2 * Math.sqrt(k);
+    vx += ((tx - x) * k - vx * damp) * dt; vy += ((ty - y) * k - vy * damp) * dt;
+    x += vx * dt; y += vy * dt;
+    // Pick the closest pose; only switch when it's clearly closer, so she doesn't flicker between two
+    const [best, bd] = closest(x, y);
+    if (best >= 0 && best !== shown && (shown < 0 || bd < dist(shown, x, y) - 2)) {
+      prev = fade < 0.5 ? prev : shown; shown = best; fade = 0;
+    }
+    if (fade < 1) { fade = Math.min(1, fade + dt / 0.09); dirty = true; }
+    if (box && onScreen && dirty) { paint(); dirty = false; }
     requestAnimationFrame(tick);
   }
 
-  load(C).then(ok => {
-    if (!ok) return stage.removeAttribute("data-frames");
-    // Match the page background to the video's backdrop so there's no visible edge
+  fetch(base + "poses.json").then(r => r.json()).then(async list => {
+    poses = list;
+    // Load order: the straight-ahead frame first, then always the frame farthest (in pose) from those
+    // already queued, so every direction works early and gaps fill in evenly
+    const order = [], minGap = lite ? 5 : 0;
+    let first = 0, fd = Infinity;
+    poses.forEach((p, i) => { const d = p[0] * p[0] + p[1] * p[1]; if (d < fd) { fd = d; first = i; } });
+    order.push(first);
+    const near = poses.map(p => Math.hypot(p[0] - poses[first][0], p[1] - poses[first][1]));
+    for (;;) {
+      let far = -1, fdist = minGap;
+      near.forEach((d, i) => { if (d > fdist) { fdist = d; far = i; } });
+      if (far < 0) break;
+      order.push(far);
+      poses.forEach((p, i) => { near[i] = Math.min(near[i], Math.hypot(p[0] - poses[far][0], p[1] - poses[far][1])); });
+    }
+    if (!(await load(first))) return stage.removeAttribute("data-frames");
+    shown = first;
+    // Match the page background to the frame's backdrop (left edge, where the text sits)
     const p = document.createElement("canvas"); p.width = p.height = 1;
-    const pc = p.getContext("2d"); pc.drawImage(frames[C], 4, 4, 1, 1, 0, 0, 1, 1);
+    const pc = p.getContext("2d"); pc.drawImage(frames[first], 0, Math.round(frames[first].height * 0.4), 1, 1, 0, 0, 1, 1);
     const [r, g, b] = pc.getImageData(0, 0, 1, 1).data;
-    backdropRGB = `${r},${g},${b}`; backdrop = `rgb(${backdropRGB})`;
+    backdrop = `rgb(${r},${g},${b})`;
     stage.style.setProperty("--bg", backdrop);
     stage.classList.add("has-video"); // show the canvas first so it has a size to measure
     layout();
@@ -182,10 +222,7 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
     // Don't repaint while the hero is scrolled out of view (saves battery on phones)
     if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; dirty = true; }).observe(stage);
     requestAnimationFrame(tick);
-    // Load the rest coarse-to-fine so the full turn range is available early
-    const order = [];
-    for (const step of [8, 4, 2, 1]) for (let i = LO; i <= HI; i += step * STEP) if (!order.includes(i) && i !== C) order.push(i);
-    if (!order.includes(HI) && HI !== C) order.splice(1, 0, HI);
-    (async () => { for (let k = 0; k < order.length; k += 6) await Promise.all(order.slice(k, k + 6).map(load)); })();
-  });
+    const rest = order.slice(1);
+    for (let i = 0; i < rest.length; i += 6) await Promise.all(rest.slice(i, i + 6).map(load));
+  }).catch(() => stage.removeAttribute("data-frames"));
 })();
