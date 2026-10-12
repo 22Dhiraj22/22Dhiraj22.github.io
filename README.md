@@ -5,11 +5,6 @@ Live at https://22dhiraj22.github.io
 Plain HTML/CSS/JS, no build step. Edit `index.html` or `work/*.html`, commit and push; GitHub Pages redeploys automatically.
 
 ## Hero character (cursor-following)
-The hero background uses 48 frames from an AI video (`assets/hero/000.jpg` … `047.jpg`). The cursor's left-right position picks the frame, so the character appears to follow it. If the frames fail to load, a drawn SVG character is shown instead.
+The hero background is a 9 × 5 grid of head poses (`assets/hero/r{row}c{col}.jpg`): columns turn from looking screen-left (`c0`) to screen-right (`c8`), rows tilt from looking up (`r0`) to down (`r4`). `script.js` works out the direction from her face to the cursor, blends the 4 nearest poses, and eases there with a spring, so she looks wherever the cursor is. On touch devices or when idle she looks around on her own. If the frames fail to load, a drawn SVG character is shown instead.
 
-To swap in a new character video (it must start looking far LEFT and end looking far RIGHT, with a static camera and a dark plain background):
-```
-rm assets/hero/*.jpg
-swift tools/extract-frames.swift ~/Downloads/new-video.mp4 assets/hero 1000 0.2 0.95
-```
-That extracts every frame. Then drop blink frames and long frozen holds (they feel laggy), renumber 000…, and set `data-count` and `data-center` (the frame looking straight at the camera) on the hero in `index.html`. Adjust `FACE_X`/`FACE_Y` in `script.js` if her face sits elsewhere in the frame.
+The poses are generated from a single portrait with [LivePortrait](https://github.com/KwaiVGI/LivePortrait) (free, open source, runs locally on a Mac). Setup and commands are at the top of `tools/pose-grid.py`; then `tools/prep-poses.swift` crops, compresses and removes the watermark. To use a different portrait, replace the image and rerun both. Adjust `FACE_X`/`FACE_Y` in `script.js` if her face sits elsewhere in the frame. `tools/extract-frames.swift` can still pull frames out of a video.
