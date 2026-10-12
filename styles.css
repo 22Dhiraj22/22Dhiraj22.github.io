@@ -202,9 +202,6 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 
 /* Hero buddy: illustrated character that follows the cursor */
 :root { --skin: #f4c7a3; --skin-d: #e3a882; --hair: #2a1c19; --iris: #3a2a24; --blush: #ff8fa3; }
-.hero-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 32px; align-items: center; }
-.buddy { position: relative; max-width: 420px; justify-self: end; width: 100%; }
-.buddy svg { width: 100%; height: auto; display: block; overflow: visible; }
 .b-halo { fill: var(--accent-soft); }
 .b-spark { fill: var(--accent); opacity: .5; animation: b-float 5s ease-in-out infinite; }
 .b-spark.s2 { animation-delay: -1.6s; } .b-spark.s3 { animation-delay: -3.2s; }
@@ -222,7 +219,26 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 @keyframes b-breathe { 50% { transform: translateY(-4px); } }
 @keyframes b-float { 50% { transform: translateY(-10px); } }
 @media (prefers-reduced-motion: reduce) { #b-body, .b-spark { animation: none; } }
+
+
+/* Full-screen hero stage: character lives in the background layer */
+.hero.stage { position: relative; overflow: hidden; min-height: calc(100svh - 64px); display: flex; align-items: center; padding: 72px 0 56px; }
+.stage-bg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(60% 70% at 72% 60%, var(--accent-soft), transparent 70%); }
+.stage-bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: none; }
+.stage.has-video canvas { display: block; }
+.stage.has-video .buddy { display: none; }
+.stage .buddy { position: absolute; bottom: 0; right: max(0px, calc((100vw - 1180px) / 2)); height: 94%; aspect-ratio: 400 / 460; }
+.stage .buddy svg { height: 100%; width: 100%; }
+.stage .b-halo { display: none; }
+.stage-fade { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 80%, transparent) 36%, transparent 60%),
+              linear-gradient(0deg, var(--bg) 0%, transparent 25%); }
+.stage-content { position: relative; z-index: 2; width: 100%; }
+.stage .hero-text { max-width: 620px; }
+.stage .stats { margin-top: 56px; max-width: 640px; }
 @media (max-width: 860px) {
-  .hero-grid { grid-template-columns: 1fr; }
-  .buddy { max-width: 260px; justify-self: center; order: -1; margin-bottom: -8px; }
+  .hero.stage { min-height: 0; display: block; padding: 48px 0 380px; }
+  .stage .buddy { height: 400px; right: 50%; transform: translateX(50%); }
+  .stage-fade { background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 55%, color-mix(in srgb, var(--bg) 60%, transparent) 68%, transparent 80%),
+                linear-gradient(0deg, var(--bg) 0%, transparent 12%); }
 }

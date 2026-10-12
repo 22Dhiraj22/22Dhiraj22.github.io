@@ -76,3 +76,47 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
     }, 2200 + Math.random() * 3200);
   })();
 })();
+
+// Optional video mode (the "AI character" look): drop a clip at assets/hero.mp4 where the
+// character turns from looking far LEFT (start) to far RIGHT (end). The cursor's X position
+// then picks the frame, so the character appears to follow it. Without the file, the SVG stays.
+(async function () {
+  const stage = document.querySelector(".stage"), canvas = document.getElementById("stage-canvas");
+  if (!stage || !canvas || !window.createImageBitmap) return;
+  const src = "assets/hero.mp4";
+  try { if (!(await fetch(src, { method: "HEAD" })).ok) return; } catch (e) { return; }
+
+  const v = document.createElement("video");
+  v.muted = true; v.playsInline = true; v.preload = "auto"; v.src = src;
+  try {
+    await new Promise((ok, fail) => { v.addEventListener("loadeddata", ok, { once: true }); v.addEventListener("error", fail, { once: true }); });
+  } catch (e) { return; }
+
+  // Pre-extract frames once so moving the cursor is instant (no laggy video seeking)
+  const N = 40, frames = [];
+  const w = Math.min(v.videoWidth, innerWidth < 860 ? 640 : 1100);
+  for (let i = 0; i < N; i++) {
+    v.currentTime = Math.max(0, v.duration - 0.05) * i / (N - 1);
+    await new Promise(r => v.addEventListener("seeked", r, { once: true }));
+    frames.push(await createImageBitmap(v, { resizeWidth: w, resizeQuality: "high" }));
+  }
+  stage.classList.add("has-video");
+
+  const ctx = canvas.getContext("2d");
+  let target = 0.5, cur = 0.5, last = -1;
+  addEventListener("pointermove", e => { target = e.clientX / innerWidth; }, { passive: true });
+  const size = () => { const d = devicePixelRatio || 1; canvas.width = canvas.clientWidth * d; canvas.height = canvas.clientHeight * d; last = -1; };
+  addEventListener("resize", size); size();
+
+  (function draw() {
+    cur += (target - cur) * 0.12;
+    const idx = Math.round(Math.min(Math.max(cur, 0), 1) * (N - 1));
+    if (idx !== last) {
+      const f = frames[idx], s = Math.max(canvas.width / f.width, canvas.height / f.height);
+      const dw = f.width * s, dh = f.height * s;
+      ctx.drawImage(f, (canvas.width - dw) / 2, canvas.height - dh, dw, dh); // cover, bottom-aligned
+      last = idx;
+    }
+    requestAnimationFrame(draw);
+  })();
+})();

@@ -29,19 +29,10 @@
   </div>
 </nav>
 
-<header class="hero">
-  <div class="wrap">
-   <div class="hero-grid">
-   <div class="hero-text">
-    <span class="eyebrow"><span class="dot"></span> Product Manager · Kaabil Finance</span>
-    <h1 class="serif">I build products that make <em>lending</em> work better for the people who run it.</h1>
-    <p class="lead">I'm a Product Manager at an Indian NBFC, owning parts of our loan origination, loan management and employee platforms, used every day by field officers, credit teams and branch staff. I studied engineering at IIT Kharagpur and did my MBA at IIM Lucknow.</p>
-    <div class="cta-row">
-      <a href="#work" class="btn primary">See my work →</a>
-      <a href="#contact" class="btn">Get in touch</a>
-    </div>
-   </div>
-   <div class="buddy" aria-hidden="true">
+<header class="hero stage">
+  <div class="stage-bg" aria-hidden="true">
+    <canvas id="stage-canvas"></canvas>
+    <div class="buddy">
     <svg id="buddy" viewBox="0 0 400 460" role="img">
       <circle cx="200" cy="230" r="185" class="b-halo"/>
       <circle cx="320" cy="90" r="10" class="b-spark s1"/>
@@ -76,7 +67,18 @@
         </g>
       </g>
     </svg>
-   </div>
+    </div>
+  </div>
+  <div class="stage-fade"></div>
+  <div class="wrap stage-content">
+   <div class="hero-text">
+    <span class="eyebrow"><span class="dot"></span> Product Manager · Kaabil Finance</span>
+    <h1 class="serif">I build products that make <em>lending</em> work better for the people who run it.</h1>
+    <p class="lead">I'm a Product Manager at an Indian NBFC, owning parts of our loan origination, loan management and employee platforms, used every day by field officers, credit teams and branch staff. I studied engineering at IIT Kharagpur and did my MBA at IIM Lucknow.</p>
+    <div class="cta-row">
+      <a href="#work" class="btn primary">See my work →</a>
+      <a href="#contact" class="btn">Get in touch</a>
+    </div>
    </div>
     <div class="stats">
       <div class="stat"><b>6+ mo</b><span>as PM in fintech lending</span></div>
