@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ledger health check — Dhiraj More</title>
+  <meta name="description" content="Case study: simplifying a loan ledger correction tool and validating its core assumption with data before building.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232f5bea'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='700' font-size='28' fill='white'>DM</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo">Dhiraj More<span>.</span></a>
+    <div class="nav-links">
+      <a href="../index.html#work" class="keep">All work</a>
+      <a href="../resume.html" class="keep">Résumé</a>
+      <button class="theme-btn" aria-label="Toggle dark mode">☾</button>
+    </div>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="wrap">
+    <a href="../index.html#work" class="back">← Back to work</a>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap"><span class="tag accent">Lending &amp; credit</span><span class="tag">Loan management · Accounts</span><span class="tag">Kaabil · Sep 2026</span></div>
+    <h1 class="serif">Simplifying ledger corrections until they were safe to ship</h1>
+    <p class="lead">The accounts team corrected loan ledgers, such as deductions and disbursement entries, case by case with no standard flow. The first idea was an automatic 'health check' that flagged broken ledgers. I simplified it into something the system could actually do reliably, and tested its core assumption with data first.</p>
+    <div class="meta"><div><span>Role</span><b>PM: discovery, prototypes, PRD</b></div><div><span>Users</span><b>Accounts team, approvers</b></div><div><span>Iterations</span><b>6 prototype versions</b></div><div><span>Timeline</span><b>Sep 2026</b></div></div>
+    <div class="impact"><div><b>~1,100</b><span>loans checked to test the key assumption</span></div><div><b>11</b><span>acceptance criteria in the PRD</span></div><div><b>6 → 1</b><span>prototype versions to a final design</span></div></div>
+    <p class="note">Company, branch and people details are anonymised. Figures are rounded.</p>
+  </div>
+</header>
+
+<article class="wrap">
+  <div class="cs-body">
+    <h2 class="serif"><small>01 · Problem</small>Ad-hoc fixes to money records</h2>
+    <p>Corrections to a loan's ledger change what a borrower owes, so they need to be consistent and auditable. Each correction was being handled differently, and there was no record of who changed what and why.</p>
+    <h2 class="serif"><small>02 · Simplify</small>Drop what the system can't know</h2>
+    <p>The early design showed red and green pass/fail flags on every ledger. But the system couldn't reliably tell what the "right" ledger was. Red flags it couldn't justify would have created noise and distrust. Over six versions I cut it down to:</p>
+    <ul>
+      <li>Two neutral sections, <strong>Deductions</strong> and <strong>Disbursement</strong>, showing what's there.</li>
+      <li>A standard way to request a correction, with a reason.</li>
+      <li>Maker-checker approval, and only one open request per loan at a time.</li>
+    </ul>
+    <h2 class="serif"><small>03 · Validate</small>Check the assumption before building on it</h2>
+    <p>The simpler design relied on one assumption: <em>each loan has at most one voucher per charge type, so a correction edits it if it exists or adds it if it doesn't.</em> Before writing the PRD I checked it against the data:</p>
+    <ul>
+      <li>Across ~1,100 loans, every one had exactly one voucher per charge type.</li>
+      <li>Payment vouchers were mostly one per loan; the few with two or three were loans disbursed in tranches, which became an explicit case in the spec.</li>
+    </ul>
+    <h2 class="serif"><small>04 · Ship</small>PRD and handoff</h2>
+    <p>The PRD has 11 acceptance criteria covering the edit-or-add rule, tranches, the one-open-request lock, approvals and the audit trail, split into PM and developer tickets.</p>
+    <h2 class="serif"><small>05 · Learnings</small>Less, but true</h2>
+    <ul>
+      <li><strong>Don't show a signal you can't stand behind.</strong></li>
+      <li><strong>Turn assumptions into queries.</strong> Ten minutes of data saved a wrong build.</li>
+      <li><strong>Edge cases found in data</strong> (tranches) belong in the spec, not in a bug later.</li>
+    </ul>
+
+    <div class="next-cs">
+      <div><span>Next case study</span><b class="serif">Why loans go bad</b></div>
+      <a href="why-loans-go-bad.html" class="btn primary">Read →</a>
+    </div>
+  </div>
+</article>
+
+<footer><div class="wrap"><span>© <span data-year></span> Dhiraj More</span><a href="../index.html">Home</a></div></footer>
+<script src="../script.js"></script>
+</body>
+</html>

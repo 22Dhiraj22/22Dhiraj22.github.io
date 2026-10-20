@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why loans go bad — Dhiraj More</title>
+  <meta name="description" content="Case study: a CEO-requested study comparing bad loans with a control group, and the pre-disbursal mandate check it led to.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232f5bea'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='700' font-size='28' fill='white'>DM</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo">Dhiraj More<span>.</span></a>
+    <div class="nav-links">
+      <a href="../index.html#work" class="keep">All work</a>
+      <a href="../resume.html" class="keep">Résumé</a>
+      <button class="theme-btn" aria-label="Toggle dark mode">☾</button>
+    </div>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="wrap">
+    <a href="../index.html#work" class="back">← Back to work</a>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap"><span class="tag accent">Data &amp; risk</span><span class="tag">Credit</span><span class="tag">Kaabil · Oct 2026</span></div>
+    <h1 class="serif">Why loans go bad: a study for the CEO that became a product</h1>
+    <p class="lead">The CEO asked what our bad loans in one rural lending pool had in common. The goal was not to recover them, but to learn what to stop doing. I compared them with a control group of good loans, and the clearest early signal pointed at payments, not at the borrower's profile.</p>
+    <div class="meta"><div><span>Role</span><b>PM: framing, analysis, write-up</b></div><div><span>Asked by</span><b>CEO</b></div><div><span>Data</span><b>Bad loans vs ~1,200 good loans, same booking window</b></div><div><span>Tools</span><b>MongoDB (read-only), Python, Excel</b></div></div>
+    <div class="impact"><div><b>~3×</b><span>bad-loan rate when the first EMI did not come through auto-debit</span></div><div><b>52%</b><span>of bad loans sat in the riskiest 20% of the pool</span></div><div><b>1</b><span>new product check: a ₹1 mandate test before disbursal</span></div></div>
+    <p class="note">Company, branch and people details are anonymised. Figures are rounded.</p>
+  </div>
+</header>
+
+<article class="wrap">
+  <div class="cs-body">
+    <h2 class="serif"><small>01 · The question</small>What do our bad loans have in common?</h2>
+    <p>About 150 loans in the pool had gone bad, most of them to dairy farmers. Leadership had several theories: seasonality, borrowers with no credit history, high repayment burden, and the idea that loans fail only after several EMIs. Each theory pointed to a different fix.</p>
+    <p>I agreed one rule with the CEO up front: <strong>this is about process and policy, not about chasing these borrowers.</strong> That kept the study from drifting into a recovery list.</p>
+    <h2 class="serif"><small>02 · Method</small>Compare like with like</h2>
+    <ol>
+      <li><strong>A control group.</strong> Bad loans compared with about 1,200 good loans of the same type, booked in the same months. Without this, every pattern in the bad loans looks meaningful.</li>
+      <li><strong>Read-only data access.</strong> I asked for a read-only database user so the analysis could never change live data.</li>
+      <li><strong>Hypotheses first.</strong> Each leadership theory became a testable question with a yes or no answer.</li>
+      <li><strong>A simple risk score at the end</strong>, to check how much of the outcome the data can explain at all.</li>
+    </ol>
+    <h2 class="serif"><small>03 · What we found</small>The early signal was in payments</h2>
+    <ul>
+      <li><strong>Auto-debit at the first EMI.</strong> Mandates were registered equally often for good and bad loans (~91%). But the first EMI was actually collected by auto-debit for 59% of good loans and only 31% of bad ones. Loans whose first EMI missed auto-debit went bad about 3× as often.</li>
+      <li><strong>Stress shows up by EMI 2–3.</strong> By the third EMI, 70% of loans that later went bad had already been late at least once, against 29% of good loans. The "fails after 7 EMIs" theory didn't hold.</li>
+      <li><strong>Credit risk signals mattered, at the edges.</strong> Low bureau scores, repayment burden above half of income, and high loan-to-value each roughly doubled the odds.</li>
+      <li><strong>Borrowers with no credit history did not fail more.</strong> They did slightly better, which argued against tightening policy for first-time borrowers.</li>
+      <li><strong>A small group of branches</strong> held about a third of the bad loans while doing an eighth of the lending. The data couldn't explain why, so the next step is a file-by-file review of matched pairs.</li>
+    </ul>
+    <p>The simple risk score separated good from bad only moderately (AUC ~0.7), but the riskiest 20% of loans held about half of the bad ones. I said plainly in the write-up that <strong>most of the variation is not in our data</strong>, so nobody would treat the model as a verdict.</p>
+    <h2 class="serif"><small>04 · From insight to product</small><span id="product"></span>Prove the mandate works before paying out</h2>
+    <p>If a working auto-debit at the first EMI is the strongest early signal, the cheapest fix is to make sure it works <em>before</em> disbursal. I wrote the epic for a <strong>₹1 test debit</strong> on the registered mandate, placed right after the pre-disbursal call:</p>
+    <div class="flow"><div>Mandate registered</div><i>→</i><div>₹1 test debit</div><i>→</i><div>Pass: disburse</div><i>/</i><div>Fail: fix mandate first</div></div>
+    <p>I kept the first version small: one mandate at a time with attempt history, and no guarantor section or bulk runs. It answers one question for the branch: will the first EMI actually come through?</p>
+    <h2 class="serif"><small>05 · Communicating it</small>One analysis, two audiences</h2>
+    <ul>
+      <li><strong>For the CEO:</strong> the full findings, the method and the limits.</li>
+      <li><strong>For field leadership:</strong> a short, neutral deck with no branch names and rounded policy thresholds, written as "1 in N" so it would start a conversation instead of a blame session.</li>
+    </ul>
+    <h2 class="serif"><small>06 · Learnings</small>What I'd keep doing</h2>
+    <ul>
+      <li><strong>Always build the control group.</strong> Half the "patterns" in the bad loans were just as common in the good ones.</li>
+      <li><strong>Say what the data can't tell you.</strong> It made the findings more credible, not less.</li>
+      <li><strong>An insight is finished when it changes a process.</strong> The mandate check is worth more than the deck.</li>
+    </ul>
+
+    <div class="next-cs">
+      <div><span>Next case study</span><b class="serif">AI Credit Policy Check</b></div>
+      <a href="ai-credit-policy-check.html" class="btn primary">Read →</a>
+    </div>
+  </div>
+</article>
+
+<footer><div class="wrap"><span>© <span data-year></span> Dhiraj More</span><a href="../index.html">Home</a></div></footer>
+<script src="../script.js"></script>
+</body>
+</html>

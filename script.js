@@ -120,7 +120,7 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
     const d = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.round(canvas.clientWidth * d); canvas.height = Math.round(canvas.clientHeight * d);
     const narrow = canvas.clientWidth < 860, cw = canvas.width, ch = canvas.height;
-    const s = (narrow ? Math.min(ch, 460 * d) : ch * 0.9) / f.height;
+    const s = (narrow ? Math.min(ch, 400 * d) : ch * 0.9) / f.height;
     const w = f.width * s, h = f.height * s;
     const x = cw * (narrow ? 0.5 : 0.76) - w * FACE_X, y = ch - h;
     box = { x, y, w, h, d };
@@ -187,5 +187,20 @@ document.querySelectorAll("[data-year]").forEach(e => (e.textContent = new Date(
     for (const step of [8, 4, 2, 1]) for (let i = LO; i <= HI; i += step * STEP) if (!order.includes(i) && i !== C) order.push(i);
     if (!order.includes(HI) && HI !== C) order.splice(1, 0, HI);
     (async () => { for (let k = 0; k < order.length; k += 6) await Promise.all(order.slice(k, k + 6).map(load)); })();
+  });
+})();
+
+// Work by theme: filter chips with counts
+(function () {
+  const items = [...document.querySelectorAll(".worklist .wi")];
+  const btns = [...document.querySelectorAll(".filters button")];
+  if (!items.length) return;
+  btns.forEach(b => {
+    const f = b.dataset.f, n = f === "all" ? items.length : items.filter(i => i.dataset.t.split(" ").includes(f)).length;
+    b.insertAdjacentHTML("beforeend", `<span>${n}</span>`);
+    b.addEventListener("click", () => {
+      btns.forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+      items.forEach(i => { i.hidden = f !== "all" && !i.dataset.t.split(" ").includes(f); });
+    });
   });
 })();

@@ -244,8 +244,61 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 .stage .stats { margin-top: 56px; max-width: 640px; }
 @media (max-width: 860px) {
   .hero.stage { min-height: 0; display: block; padding: 48px 0 380px; }
-  .hero.stage[data-frames] { padding-bottom: 420px; }
+  .hero.stage[data-frames] { padding-bottom: 400px; }
+  .stage .stats { margin-top: 36px; }
   .stage .buddy { height: 400px; right: 50%; transform: translateX(50%); }
-  .stage-fade { background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 55%, color-mix(in srgb, var(--bg) 60%, transparent) 68%, transparent 80%),
+  .stage-fade { background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 62%, color-mix(in srgb, var(--bg) 60%, transparent) 72%, transparent 84%),
                 linear-gradient(0deg, var(--bg) 0%, transparent 12%); }
+}
+
+/* Featured case studies: 3-up on desktop */
+.grid.three { grid-template-columns: repeat(3, 1fr); }
+.card .theme { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.card .facts { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--line); }
+.card .facts li { font-size: 13.5px; color: var(--muted); display: flex; gap: 8px; }
+.card .facts li::before { content: "→"; color: var(--accent); }
+
+/* All work, filterable by theme */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.filters button { font: inherit; font-size: 14px; padding: 8px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; }
+.filters button:hover { color: var(--text); border-color: var(--faint); }
+.filters button[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+.filters button span { opacity: .6; margin-left: 4px; font-variant-numeric: tabular-nums; }
+.worklist { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.wi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+.wi[hidden] { display: none; }
+.wi .wt { display: flex; gap: 6px; flex-wrap: wrap; }
+.wi h3 { font-size: 16px; line-height: 1.35; }
+.wi p { font-size: 14px; color: var(--muted); }
+.wi a { font-size: 13.5px; font-weight: 600; color: var(--accent); margin-top: auto; }
+.wi.star { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+
+/* How I work: the pipeline */
+.pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; counter-reset: step; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; position: relative; }
+.step::before { counter-increment: step; content: counter(step); display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 13px; margin-bottom: 10px; }
+.step b { display: block; font-size: 15px; margin-bottom: 4px; }
+.step span { font-size: 13.5px; color: var(--muted); }
+.callout { margin-top: 20px; background: var(--surface-2); border-radius: 14px; padding: 18px 20px; color: var(--muted); font-size: 15px; }
+.callout b { color: var(--text); }
+
+@media (max-width: 1000px) {
+  .grid.three { grid-template-columns: repeat(2, 1fr); }
+  .worklist { grid-template-columns: repeat(2, 1fr); }
+  .pipeline { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .grid.three, .worklist, .pipeline { grid-template-columns: 1fr; }
+  .filters { flex-wrap: nowrap; overflow-x: auto; margin-inline: -16px; padding: 0 16px 4px; scrollbar-width: none; }
+  .filters button { flex: none; }
+  .hero h1 { font-size: clamp(32px, 9vw, 40px); }
+  .hero p.lead { font-size: 17px; }
+  .stats { gap: 12px; margin-top: 40px; }
+  .stat b { font-size: 24px; }
+  .contact { padding: 32px 22px; border-radius: 18px; }
+  .meta { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .cs-body p, .cs-body li { font-size: 16px; }
+  .cs-body h2 { font-size: 24px; margin-top: 44px; }
+  .impact b { font-size: 28px; }
+  section { padding: 56px 0; }
 }

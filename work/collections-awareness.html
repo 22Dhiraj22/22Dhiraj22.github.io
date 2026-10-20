@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Collections awareness — Dhiraj More</title>
+  <meta name="description" content="Case study: a dashboard and calling tools showing branches which borrowers were reminded before the EMI date, across every channel.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232f5bea'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='700' font-size='28' fill='white'>DM</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo">Dhiraj More<span>.</span></a>
+    <div class="nav-links">
+      <a href="../index.html#work" class="keep">All work</a>
+      <a href="../resume.html" class="keep">Résumé</a>
+      <button class="theme-btn" aria-label="Toggle dark mode">☾</button>
+    </div>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="wrap">
+    <a href="../index.html#work" class="back">← Back to work</a>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap"><span class="tag accent">Collections</span><span class="tag">Dashboards · Field app</span><span class="tag">Kaabil · Sep–Oct 2026</span></div>
+    <h1 class="serif">Showing branches who was reminded before the EMI date</h1>
+    <p class="lead">Before each EMI date, borrowers get reminders by phone, AI calls, WhatsApp, SMS and field visits. But nobody could see, per loan or per branch, what had actually happened. I designed one view of pre-due outreach for management, and simple calling tools for branch teams.</p>
+    <div class="meta"><div><span>Role</span><b>PM: problem framing, prototypes, PRD</b></div><div><span>Users</span><b>Management, branch managers, branch credit managers</b></div><div><span>Window</span><b>26th to 5th, before the EMI date</b></div><div><span>Surfaces</span><b>Web dashboard + field app</b></div></div>
+    <div class="impact"><div><b>5</b><span>outreach channels in one view</span></div><div><b>3</b><span>personas, each with its own screen</span></div><div><b>1</b><span>missing workflow step uncovered</span></div></div>
+    <p class="note">Company, branch and people details are anonymised. Figures are rounded.</p>
+  </div>
+</header>
+
+<article class="wrap">
+  <div class="cs-body">
+    <h2 class="serif"><small>01 · Problem</small>Lots of outreach, no visibility</h2>
+    <p>The pre-due window is the cheapest time to prevent a missed EMI. Several teams were contacting borrowers, through telecallers, AI calls, WhatsApp, SMS and visits, but each channel reported separately. A branch manager couldn't answer a basic question: <em>which of my borrowers due this month has nobody reached yet?</em></p>
+    <h2 class="serif"><small>02 · Framing</small>What is this dashboard for?</h2>
+    <p>The first draft was built from an existing collections dashboard and showed everything. I pushed it back to one purpose: <strong>help improve collection efficiency</strong>. Every widget had to answer "what will someone do differently after seeing this?"</p>
+    <ul>
+      <li>Cut extra charts down to one 30-day trend and month-on-month arrows.</li>
+      <li>Added Zone → Region → Area → Branch filters, since that's how managers review performance.</li>
+      <li>Added payment details: auto-debit vs UPI, and first-time auto-debit success vs bounce.</li>
+    </ul>
+    <h2 class="serif"><small>03 · Three personas</small>Different screens for different jobs</h2>
+    <ul>
+      <li><strong>Management:</strong> coverage and outcomes by channel and geography.</li>
+      <li><strong>Branch manager (web):</strong> an awareness calling tab on each loan, with "needs attention" signals and next actions such as re-call, field visit or log contact.</li>
+      <li><strong>Branch credit manager (field app):</strong> a calling list, the next customer, and call history. No campaign setup, because that's not their job.</li>
+    </ul>
+    <h2 class="serif"><small>04 · A useful bug</small>When empty data is really a missing step</h2>
+    <p>The "Assigned to" column was empty for most loans, which looked like a data bug. Tracing it back, there was no step that actually assigned loans to callers. I wrote it up as a missing distribution step in the workflow, which changed the fix from a data patch to a product change.</p>
+    <h2 class="serif"><small>05 · Learnings</small>What I'd do again</h2>
+    <ul>
+      <li><strong>Ask what action a dashboard drives</strong> before adding a single chart.</li>
+      <li><strong>Design per persona.</strong> One screen for everyone ends up useful to no one.</li>
+      <li><strong>Treat empty fields as questions about the process.</strong></li>
+    </ul>
+
+    <div class="next-cs">
+      <div><span>Next case study</span><b class="serif">Deviation history for approvers</b></div>
+      <a href="deviation-history.html" class="btn primary">Read →</a>
+    </div>
+  </div>
+</article>
+
+<footer><div class="wrap"><span>© <span data-year></span> Dhiraj More</span><a href="../index.html">Home</a></div></footer>
+<script src="../script.js"></script>
+</body>
+</html>

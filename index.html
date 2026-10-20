@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dhiraj More — Product Manager</title>
-  <meta name="description" content="Dhiraj More is a Product Manager building lending and operations products for an Indian NBFC. IIT Kharagpur, IIM Lucknow.">
+  <meta name="description" content="Dhiraj More is a Product Manager building lending, collections, AI and employee platforms for an Indian NBFC. IIT Kharagpur, IIM Lucknow.">
   <meta property="og:title" content="Dhiraj More — Product Manager">
   <meta property="og:description" content="Case studies on lending platforms, internal tools, analytics and AI-assisted product work.">
   <meta property="og:type" content="website">
@@ -21,8 +21,9 @@
     <a href="#" class="logo">Dhiraj More<span>.</span></a>
     <div class="nav-links">
       <a href="#work">Work</a>
-      <a href="#about">About</a>
+      <a href="#process">How I work</a>
       <a href="#experience">Experience</a>
+      <a href="resume.html" class="keep">Résumé</a>
       <a href="#contact" class="keep">Contact</a>
       <button class="theme-btn" aria-label="Toggle dark mode">☾</button>
     </div>
@@ -73,18 +74,18 @@
   <div class="wrap stage-content">
    <div class="hero-text">
     <span class="eyebrow"><span class="dot"></span> Product Manager · Kaabil Finance</span>
-    <h1 class="serif">I build products that make <em>lending</em> work better for the people who run it.</h1>
-    <p class="lead">I'm a Product Manager at an Indian NBFC, owning parts of our loan origination, loan management and employee platforms, used every day by field officers, credit teams and branch staff. I studied engineering at IIT Kharagpur and did my MBA at IIM Lucknow.</p>
+    <h1 class="serif">I build the products a rural <em>lending</em> business runs on.</h1>
+    <p class="lead">I'm a Product Manager at an Indian NBFC that lends to small businesses and dairy farmers. I own the internal platforms for loan origination, credit, collections, payments and HR, used every day by field officers, credit teams, branch managers and HR. I like rules engines with AI on top, and decisions backed by data.</p>
     <div class="cta-row">
       <a href="#work" class="btn primary">See my work →</a>
-      <a href="#contact" class="btn">Get in touch</a>
+      <a href="resume.html" class="btn">Résumé</a>
     </div>
    </div>
     <div class="stats">
-      <div class="stat"><b>6+ mo</b><span>as PM in fintech lending</span></div>
-      <div class="stat"><b>4</b><span>platform modules worked on</span></div>
-      <div class="stat"><b>1,000+</b><span>internal users served</span></div>
-      <div class="stat"><b>IIT · IIM</b><span>KGP · Lucknow</span></div>
+      <div class="stat"><b>520+</b><span>Jira stories &amp; PRDs written since Apr 2026</span></div>
+      <div class="stat"><b>14</b><span>product areas, from credit to payroll</span></div>
+      <div class="stat"><b>1,095</b><span>employees on the HRMS I helped build</span></div>
+      <div class="stat"><b>97</b><span>branches using these tools</span></div>
     </div>
   </div>
 </header>
@@ -96,55 +97,124 @@
         <div class="label">Selected work</div>
         <h2 class="serif">Case studies</h2>
       </div>
-      <p>How I frame the problem, make trade-offs and measure outcomes. Company data is anonymised.</p>
+      <p>Six pieces of work that show how I frame problems, use data and make trade-offs. Company, branch and people details are anonymised.</p>
     </div>
 
-    <div class="grid">
-      <a href="work/loan-funnel-analytics.html" class="card reveal">
-        <div class="tags"><span class="tag accent">Analytics</span><span class="tag">Lending</span><span class="tag">Kaabil</span></div>
-        <h3>Making the sanction-to-disbursal funnel visible</h3>
-        <p>Leadership couldn't see where approved loans were getting stuck. I built a self-serve funnel dashboard that put a single number on every stage.</p>
-        <div class="metrics">
-          <div><b>~3 hrs → 0</b><span>weekly manual MIS</span></div>
-          <div><b>5 stages</b><span>tracked by branch</span></div>
-        </div>
+    <div class="grid three">
+      <a href="work/why-loans-go-bad.html" class="card reveal">
+        <span class="theme">Data &amp; risk</span>
+        <h3>Why loans go bad: a study for the CEO that became a product</h3>
+        <p>Compared bad loans with a control group of good ones. The strongest early signal was in payments, which led to a pre-disbursal mandate check.</p>
+        <ul class="facts"><li>Bad loans were ~3× likelier when the first EMI missed auto-debit</li><li>20% riskiest loans held half the bad ones</li></ul>
         <span class="more">Read case study →</span>
       </a>
-
-      <a href="work/ai-prototyping.html" class="card reveal">
-        <div class="tags"><span class="tag accent">AI workflow</span><span class="tag">Design systems</span><span class="tag">Kaabil</span></div>
-        <h3>Prototypes that match production UI on the first try</h3>
-        <p>I turned our Figma design system into an AI-ready UI kit, so prototypes look like the real product from the first draft.</p>
-        <div class="metrics">
-          <div><b>4–5 → 1</b><span>review rounds per prototype</span></div>
-          <div><b>Days → hrs</b><span>idea to clickable screen</span></div>
-        </div>
+      <a href="work/ai-credit-policy-check.html" class="card reveal">
+        <span class="theme">AI products</span>
+        <h3>AI Credit Policy Check: audit a loan file in minutes, and explain why</h3>
+        <p>A rules engine checks each file against credit policy. An LLM reads the documents and photos and writes the explanation an auditor can act on.</p>
+        <ul class="facts"><li>43 checks across 5 policy sections</li><li>~3 minutes and ~$0.05 per file</li></ul>
         <span class="more">Read case study →</span>
       </a>
-
-      <a href="work/access-role-management.html" class="card reveal">
-        <div class="tags"><span class="tag accent">Internal tools</span><span class="tag">HRMS</span><span class="tag">Kaabil</span></div>
-        <h3>Fixing account lockouts and role changes for 1,000+ employees</h3>
-        <p>Locked accounts and role changes went through manual database fixes. I mapped the process and designed a self-serve admin flow with audit trails.</p>
-        <div class="metrics">
-          <div><b>~1 day → mins</b><span>time to restore access</span></div>
-          <div><b>100%</b><span>changes audit-logged</span></div>
-        </div>
+      <a href="work/in-house-hrms.html" class="card reveal">
+        <span class="theme">Employee platforms</span>
+        <h3>Replacing a paid HRMS with our own, from attendance to payroll</h3>
+        <p>Moved attendance, hiring, payroll, expenses and exits for every employee off a third-party tool and into our own platform.</p>
+        <ul class="facts"><li>1,095 employees across 97 branches</li><li>Salary now runs in-system from attendance</li></ul>
         <span class="more">Read case study →</span>
       </a>
-
-      <a href="work/healthletic-growth.html" class="card reveal">
-        <div class="tags"><span class="tag accent">Growth</span><span class="tag">Web UX</span><span class="tag">Internship</span></div>
-        <h3>Doubling subscriptions by fixing a leaky signup funnel</h3>
-        <p>Visitors were coming but not subscribing, especially on mobile. I found the leaks from search to signup and fixed them using data.</p>
-        <div class="metrics">
-          <div><b>2×</b><span>subscriptions</span></div>
-          <div><b>+40%</b><span>engagement</span></div>
-          <div><b>30%</b><span>faster load</span></div>
-        </div>
+      <a href="work/collections-awareness.html" class="card reveal">
+        <span class="theme">Collections</span>
+        <h3>Showing branches who was reminded before the EMI date</h3>
+        <p>A dashboard and calling tools that bring calls, AI calls, WhatsApp, SMS and visits into one view for the pre-due window.</p>
+        <ul class="facts"><li>3 personas: management, branch manager, field app</li><li>Scope cut to what moves collection efficiency</li></ul>
+        <span class="more">Read case study →</span>
+      </a>
+      <a href="work/deviation-history.html" class="card reveal">
+        <span class="theme">Lending &amp; credit</span>
+        <h3>Giving the approver the full deviation history in one view</h3>
+        <p>Policy deviations on one loan arrived days apart. I redesigned the approval view so the approver sees what was already approved or rejected.</p>
+        <ul class="facts"><li>5 deviation types, 8 scenarios specified</li><li>Shows the approved value, not the latest request</li></ul>
+        <span class="more">Read case study →</span>
+      </a>
+      <a href="work/ledger-health-check.html" class="card reveal">
+        <span class="theme">Lending &amp; credit</span>
+        <h3>Simplifying ledger corrections until they were safe to ship</h3>
+        <p>Six prototype versions, an assumption tested against real data, and a maker-checker flow with 11 acceptance criteria.</p>
+        <ul class="facts"><li>Assumption checked on ~1,100 loans before building</li><li>Red flags removed for a neutral, reviewable view</li></ul>
         <span class="more">Read case study →</span>
       </a>
     </div>
+  </div>
+</section>
+
+<section id="all-work" style="padding-top:24px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="label">Everything I've worked on</div>
+        <h2 class="serif">Work by theme</h2>
+      </div>
+      <p>The wider set of products I've specified and shipped at Kaabil since April 2026. Filter by theme.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter by theme">
+      <button aria-pressed="true" data-f="all">All</button>
+      <button aria-pressed="false" data-f="ai">AI &amp; automation</button>
+      <button aria-pressed="false" data-f="lending">Lending &amp; credit</button>
+      <button aria-pressed="false" data-f="collections">Payments &amp; collections</button>
+      <button aria-pressed="false" data-f="people">Employee platforms</button>
+      <button aria-pressed="false" data-f="data">Data &amp; insight</button>
+    </div>
+    <div class="worklist">
+      <div class="wi star" data-t="ai lending"><div class="wt"><span class="tag accent">AI</span><span class="tag">Credit audit</span></div><h3>AI Credit Policy Check</h3><p>Rules engine plus LLM explanations that audit disbursed files against state credit policy.</p><a href="work/ai-credit-policy-check.html">Case study →</a></div>
+      <div class="wi" data-t="ai lending"><div class="wt"><span class="tag accent">AI</span><span class="tag">Underwriting</span></div><h3>Credit notes drafted from the first visit</h3><p>Turns the field officer's visit transcript into a first draft of the credit note.</p></div>
+      <div class="wi" data-t="ai collections"><div class="wt"><span class="tag accent">AI</span><span class="tag">Calling</span></div><h3>AI calls at sanction and in collections</h3><p>An AI confirmation call to the borrower at sanction, and AI tagging of collection call outcomes.</p></div>
+      <div class="wi" data-t="ai lending"><div class="wt"><span class="tag accent">AI</span><span class="tag">Compliance</span></div><h3>Real-time Aadhaar masking in photos</h3><p>Masks ID numbers in uploaded document photos as they're captured.</p></div>
+      <div class="wi" data-t="ai collections"><div class="wt"><span class="tag accent">AI</span><span class="tag">Settlements</span></div><h3>One-time settlement engine</h3><p>Settlement calculator with tranche schedules, IRR against cost of funds, an AI confirmation call and digital approvals.</p></div>
+
+      <div class="wi star" data-t="lending"><div class="wt"><span class="tag accent">LOS</span><span class="tag">Approvals</span></div><h3>Deviation history for approvers</h3><p>One view of every LTV, FOIR, ROI, location and bureau deviation on a loan.</p><a href="work/deviation-history.html">Case study →</a></div>
+      <div class="wi star" data-t="lending"><div class="wt"><span class="tag accent">LMS</span><span class="tag">Accounts</span></div><h3>Ledger health check</h3><p>Maker-checker flow for correcting loan ledger deductions and disbursement vouchers.</p><a href="work/ledger-health-check.html">Case study →</a></div>
+      <div class="wi" data-t="lending"><div class="wt"><span class="tag accent">LOS</span><span class="tag">Documents</span></div><h3>Digital agreements and a backup e-sign provider</h3><p>Aadhaar-OTP e-signing, with automatic fallback to a second provider when the first is down.</p></div>
+      <div class="wi" data-t="lending"><div class="wt"><span class="tag accent">LOS</span><span class="tag">KYC</span></div><h3>KYC lock and watermarking</h3><p>KYC documents locked after the credit stage and watermarked to prevent reuse.</p></div>
+      <div class="wi" data-t="lending"><div class="wt"><span class="tag accent">LMS</span><span class="tag">Servicing</span></div><h3>Loan restructuring and schedule regeneration</h3><p>Restructure and part-payment flows, with versioned repayment schedules.</p></div>
+      <div class="wi" data-t="lending"><div class="wt"><span class="tag accent">Audit</span><span class="tag">Field app</span></div><h3>Video-per-question audit verification</h3><p>Auditors record one short video per question, in English or Hindi, instead of one long video.</p></div>
+
+      <div class="wi star" data-t="collections"><div class="wt"><span class="tag accent">Collections</span><span class="tag">Dashboard</span></div><h3>Awareness calling and communication dashboard</h3><p>Pre-due outreach across calls, AI calls, WhatsApp, SMS and visits, for management and branches.</p><a href="work/collections-awareness.html">Case study →</a></div>
+      <div class="wi" data-t="collections lending"><div class="wt"><span class="tag accent">Payments</span><span class="tag">Risk</span></div><h3>₹1 mandate check before disbursal</h3><p>A test debit proves a borrower's auto-debit mandate works before the loan is paid out.</p><a href="work/why-loans-go-bad.html#product">Where it came from →</a></div>
+      <div class="wi" data-t="collections"><div class="wt"><span class="tag accent">Payments</span><span class="tag">Field app</span></div><h3>Mandate creation from the field app</h3><p>Field officers can set up an auto-debit mandate on a live loan for any person on it.</p></div>
+      <div class="wi" data-t="collections"><div class="wt"><span class="tag accent">Payments</span><span class="tag">Ops</span></div><h3>UPI mandates, bulk NACH and reconciliation fixes</h3><p>UPI autopay requests, bulk mandate upload and a maker-checker way to correct reconciliations.</p></div>
+      <div class="wi" data-t="collections"><div class="wt"><span class="tag accent">Treasury</span><span class="tag">Approvals</span></div><h3>Securitised pool payouts</h3><p>Monthly trustee payout sheets from actual collections, with maker, checker and CFO approval.</p></div>
+      <div class="wi" data-t="collections"><div class="wt"><span class="tag accent">Legal</span><span class="tag">Recovery</span></div><h3>Legal and recovery workflows</h3><p>Statutory notice generation, asset reconstruction tracking and auction listings.</p></div>
+
+      <div class="wi star" data-t="people"><div class="wt"><span class="tag accent">HRMS</span><span class="tag">0 → 1</span></div><h3>In-house HRMS</h3><p>Attendance, hiring, employee records and exits, replacing a third-party vendor.</p><a href="work/in-house-hrms.html">Case study →</a></div>
+      <div class="wi" data-t="people"><div class="wt"><span class="tag accent">Payroll</span><span class="tag">Payouts</span></div><h3>Payroll, incentives, arrears and bonus</h3><p>Penny-drop-verified bank accounts, approval chains and in-system salary runs.</p></div>
+      <div class="wi" data-t="people"><div class="wt"><span class="tag accent">Accounts</span><span class="tag">Payments</span></div><h3>Expenses, vendors, rent and utilities</h3><p>Vendor invoices with GST/TDS, rent deposits, petty cash and employee claims with duplicate checks.</p></div>
+      <div class="wi" data-t="people"><div class="wt"><span class="tag accent">Workflow</span><span class="tag">Governance</span></div><h3>K-Memo approvals</h3><p>Structured memos with approval chains and an audit trail, replacing approvals over email.</p></div>
+      <div class="wi" data-t="people"><div class="wt"><span class="tag accent">Platform</span><span class="tag">Access</span></div><h3>Roles and access</h3><p>Dynamic roles, one user with many roles, and cover for other branches without logging in again.</p></div>
+
+      <div class="wi star" data-t="data"><div class="wt"><span class="tag accent">Analytics</span><span class="tag">Credit</span></div><h3>Why loans go bad</h3><p>CEO-requested study of a loan pool against a matched control group.</p><a href="work/why-loans-go-bad.html">Case study →</a></div>
+      <div class="wi" data-t="data people"><div class="wt"><span class="tag accent">Analytics</span><span class="tag">Field force</span></div><h3>Field force retention and productivity</h3><p>How early exits and spend compare with the business each zone brings in, for leadership reviews.</p></div>
+      <div class="wi" data-t="data lending"><div class="wt"><span class="tag accent">Dashboards</span><span class="tag">LOS</span></div><h3>Sanction-to-disbursal funnel</h3><p>A self-serve view of where approved loans wait, by stage and branch.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="label">How I work</div>
+        <h2 class="serif">Data first, prototype early, write it down</h2>
+      </div>
+      <p>My usual path from a request to a shipped feature. AI tools speed up each step; the judgement stays with me.</p>
+    </div>
+    <div class="pipeline reveal">
+      <div class="step"><b>Understand the ask</b><span>Find out who's asking, what decision they're stuck on, and what "fixed" looks like.</span></div>
+      <div class="step"><b>Check the data</b><span>Query the database before building, so assumptions are tested, not guessed.</span></div>
+      <div class="step"><b>Prototype in our UI</b><span>Clickable screens built on our own design system, so reviews are about the flow.</span></div>
+      <div class="step"><b>Write the PRD</b><span>Business rules, edge cases, acceptance criteria, then PM and dev tickets in Jira.</span></div>
+      <div class="step"><b>Launch and explain</b><span>Release notes and user guides checked against the live system before they go out.</span></div>
+    </div>
+    <div class="callout reveal"><b>My AI setup:</b> I've connected Jira, our databases and our analytics tool to Claude, and turned our design system into a reusable skill. Prototypes now match the production UI on the first draft, and data questions take minutes instead of a request to the tech team.</div>
   </div>
 </section>
 
@@ -180,9 +250,9 @@
         <div class="when">Apr 2026 — Present</div>
         <h3>Product Manager <span>· Kaabil Finance</span></h3>
         <ul>
-          <li>Own product areas across loan origination (LOS), loan management (LMS), HRMS and Employee Desk.</li>
-          <li>Built the company's first self-serve loan funnel analytics on Metabase.</li>
-          <li>Set up an AI-assisted prototyping workflow on top of the company design system.</li>
+          <li>Own internal platforms across loan origination, credit, collections, payments, HR and payroll, plus the field app.</li>
+          <li>Wrote 520+ Jira stories and PRDs across 14 product areas; most features go from prototype to PRD to dev tickets.</li>
+          <li>Shipped AI features into lending workflows, and ran data studies for the CEO and field leadership.</li>
         </ul>
       </div>
       <div class="tl-item">
@@ -196,11 +266,11 @@
       </div>
       <div class="tl-item">
         <div class="when">Internships</div>
-        <h3>Growth & Strategy <span>· Healthletic · Nexus Void AI · Kajaria</span></h3>
+        <h3>Growth &amp; Strategy <span>· Healthletic · Nexus Void AI · Kajaria</span></h3>
         <ul>
-          <li><b>Healthletic:</b> 2× subscriptions, +15% organic CTR, 30% faster load time.</li>
+          <li><b>Healthletic:</b> 2× subscriptions, +15% organic CTR, 30% faster load time. <a href="work/healthletic-growth.html" style="color:var(--accent);font-weight:600">Case study →</a></li>
           <li><b>Nexus Void AI:</b> built a GTM roadmap and a community pipeline of 150+.</li>
-          <li><b>Kajaria:</b> sentiment analysis of 2K reviews and SPOC for 10+ clients, bringing in ₹50K+ in sales.</li>
+          <li><b>Kajaria:</b> sentiment analysis of 2,000+ reviews; cluster analysis found 4 untapped segments (₹50L+ opportunity).</li>
         </ul>
       </div>
       <div class="tl-item">
@@ -225,15 +295,15 @@
     <div class="skills">
       <div class="card reveal">
         <h3>Product</h3>
-        <div class="chips"><span class="chip">Discovery</span><span class="chip">PRDs & specs</span><span class="chip">Prioritisation</span><span class="chip">Roadmapping</span><span class="chip">User research</span><span class="chip">Stakeholder mgmt</span></div>
+        <div class="chips"><span class="chip">Discovery</span><span class="chip">PRDs &amp; acceptance criteria</span><span class="chip">Maker-checker &amp; approval design</span><span class="chip">Prioritisation</span><span class="chip">Sprint planning</span><span class="chip">Stakeholder mgmt</span></div>
       </div>
       <div class="card reveal">
-        <h3>Data & Growth</h3>
-        <div class="chips"><span class="chip">SQL</span><span class="chip">Metabase</span><span class="chip">MongoDB</span><span class="chip">Funnel analysis</span><span class="chip">A/B testing</span><span class="chip">Google Analytics</span></div>
+        <h3>Data</h3>
+        <div class="chips"><span class="chip">SQL</span><span class="chip">MongoDB</span><span class="chip">Metabase</span><span class="chip">Python</span><span class="chip">Cohort &amp; control analysis</span><span class="chip">A/B testing</span></div>
       </div>
       <div class="card reveal">
         <h3>Tools & AI</h3>
-        <div class="chips"><span class="chip">Jira</span><span class="chip">Confluence</span><span class="chip">Figma</span><span class="chip">Claude Code</span><span class="chip">MCP integrations</span><span class="chip">Prompting</span></div>
+        <div class="chips"><span class="chip">Jira</span><span class="chip">Figma</span><span class="chip">Claude Code</span><span class="chip">MCP integrations</span><span class="chip">HTML prototyping</span><span class="chip">LLM feature design</span></div>
       </div>
     </div>
   </div>
@@ -244,11 +314,12 @@
     <div class="contact reveal">
       <div>
         <h2 class="serif">Let's talk product.</h2>
-        <p>Open to conversations about product roles, fintech and building with AI.</p>
+        <p>Open to conversations about product roles, fintech and building with AI.<br>ddmore8055@gmail.com</p>
       </div>
       <div class="cta-row" style="margin-top:0">
         <a href="mailto:ddmore8055@gmail.com" class="btn">Email me</a>
         <a href="https://www.linkedin.com/in/dhiraj-more-75171a199" target="_blank" rel="noopener" class="btn ghost">LinkedIn ↗</a>
+        <a href="assets/Dhiraj_More_Resume.pdf" class="btn ghost" download>Résumé (PDF)</a>
       </div>
     </div>
   </div>

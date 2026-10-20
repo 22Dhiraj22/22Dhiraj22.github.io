@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Credit Policy Check — Dhiraj More</title>
+  <meta name="description" content="Case study: a rules engine with LLM explanations that audits disbursed loan files against credit policy.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232f5bea'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='700' font-size='28' fill='white'>DM</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo">Dhiraj More<span>.</span></a>
+    <div class="nav-links">
+      <a href="../index.html#work" class="keep">All work</a>
+      <a href="../resume.html" class="keep">Résumé</a>
+      <button class="theme-btn" aria-label="Toggle dark mode">☾</button>
+    </div>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="wrap">
+    <a href="../index.html#work" class="back">← Back to work</a>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap"><span class="tag accent">AI products</span><span class="tag">Credit audit</span><span class="tag">Kaabil · Jul–Sep 2026</span></div>
+    <h1 class="serif">AI Credit Policy Check: audit a loan file in minutes, and explain why</h1>
+    <p class="lead">Checking a disbursed loan file against credit policy meant an auditor reading documents, photos and notes line by line. I designed a tool that runs every policy check on a file and explains each result in plain language, so auditors spend their time on the exceptions.</p>
+    <div class="meta"><div><span>Role</span><b>PM: design brief, prototype, PRD</b></div><div><span>Users</span><b>Credit audit and risk teams</b></div><div><span>Built</span><b>Jul 2026; reviewed Sep 2026</b></div><div><span>Stack</span><b>Rules + LLM with vision, JSON output</b></div></div>
+    <div class="impact"><div><b>43</b><span>policy checks across 5 sections</span></div><div><b>~3 min</b><span>to audit one file end to end</span></div><div><b>~$0.05</b><span>model cost per file</span></div></div>
+    <p class="note">Company, branch and people details are anonymised. Figures are rounded.</p>
+  </div>
+</header>
+
+<article class="wrap">
+  <div class="cs-body">
+    <h2 class="serif"><small>01 · Problem</small>Policy audits were slow and inconsistent</h2>
+    <p>Each state has its own credit policy, with dozens of rules on eligibility, income, collateral, documents and field verification. After disbursal, auditors checked files against these rules by hand. Two auditors could read the same file differently, and nobody could audit every file.</p>
+    <h2 class="serif"><small>02 · Approach</small>Rules decide, AI explains</h2>
+    <p>The key decision was where the AI should and shouldn't have the final word. A credit audit has to be repeatable and defensible, so:</p>
+    <div class="options">
+      <div class="option"><b>Option A: let the LLM judge everything</b><span>Fast to build, but the same file could get different answers, and the reasoning is hard to defend in an audit.</span></div>
+      <div class="option chosen"><b>Option B: rules for the verdict, LLM for reading and explaining</b><span>Objective checks (ages, ratios, amounts, dates) are plain rules. The model reads documents and photos, pulls out the facts, and writes a short explanation for each check.</span></div>
+    </div>
+    <p>The output is structured: a pass, fail or "needs review" per check, grouped into 5 policy sections, with the evidence and explanation alongside. Auditors start from a section drill-down rather than a long report.</p>
+    <h2 class="serif"><small>03 · What I built</small>From brief to working prototype</h2>
+    <ul>
+      <li>A design brief mapping every policy rule to a check, the data it needs and who owns the exception.</li>
+      <li>A clickable prototype of the audit summary and the section drill-down.</li>
+      <li>A working checker covering 43 checks for 2 state policies, reading photos as well as data.</li>
+      <li>The PRD and Jira breakdown for bringing it into the loan origination system.</li>
+    </ul>
+    <h2 class="serif"><small>04 · Testing it honestly</small>Finding where the AI wobbled</h2>
+    <p>When I re-ran identical files a couple of months later, <strong>6 of the 43 checks gave different answers between runs.</strong> All of them were checks where the model was making a judgement that a rule could make instead.</p>
+    <p>The fix I proposed: move every objective check to deterministic code, keep the model only for reading documents and writing explanations, fix the model settings for repeatability, and cache results per file version so a re-run of an unchanged file returns the same answer.</p>
+    <p class="quote">The useful question isn't "can AI do this?" It's "which parts must give the same answer every time?"</p>
+    <h2 class="serif"><small>05 · Learnings</small>What I'd tell another PM</h2>
+    <ul>
+      <li><strong>Draw the line between judgement and rules early</strong>, and write it in the PRD.</li>
+      <li><strong>Re-run the same inputs.</strong> Repeatability testing found a problem that single demos never would.</li>
+      <li><strong>Cost per decision matters.</strong> At ~$0.05 a file, auditing every file becomes realistic, not just a sample.</li>
+    </ul>
+
+    <div class="next-cs">
+      <div><span>Next case study</span><b class="serif">Replacing a paid HRMS with our own</b></div>
+      <a href="in-house-hrms.html" class="btn primary">Read →</a>
+    </div>
+  </div>
+</article>
+
+<footer><div class="wrap"><span>© <span data-year></span> Dhiraj More</span><a href="../index.html">Home</a></div></footer>
+<script src="../script.js"></script>
+</body>
+</html>

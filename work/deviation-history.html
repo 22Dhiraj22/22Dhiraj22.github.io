@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deviation history for approvers — Dhiraj More</title>
+  <meta name="description" content="Case study: redesigning the loan approval view so approvers see every past policy deviation on a loan in one place.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232f5bea'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='700' font-size='28' fill='white'>DM</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo">Dhiraj More<span>.</span></a>
+    <div class="nav-links">
+      <a href="../index.html#work" class="keep">All work</a>
+      <a href="../resume.html" class="keep">Résumé</a>
+      <button class="theme-btn" aria-label="Toggle dark mode">☾</button>
+    </div>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="wrap">
+    <a href="../index.html#work" class="back">← Back to work</a>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap"><span class="tag accent">Lending &amp; credit</span><span class="tag">Loan origination</span><span class="tag">Kaabil · Oct 2026</span></div>
+    <h1 class="serif">Giving the approver the full deviation history in one view</h1>
+    <p class="lead">When a loan breaks a credit policy limit, the credit officer raises a deviation and a senior approver decides. On one loan these requests could arrive days apart, inside a long chat-style thread, so approvers lost track of what they had already approved or rejected. I redesigned how that history is shown.</p>
+    <div class="meta"><div><span>Role</span><b>PM: problem framing, prototypes, PRD</b></div><div><span>Users</span><b>Senior approvers, credit officers</b></div><div><span>Scope</span><b>5 deviation types</b></div><div><span>Timeline</span><b>Oct 2026</b></div></div>
+    <div class="impact"><div><b>5</b><span>deviation types in one history view</span></div><div><b>8</b><span>scenarios specified for developers</span></div><div><b>2</b><span>designs tested before choosing</span></div></div>
+    <p class="note">Company, branch and people details are anonymised. Figures are rounded.</p>
+  </div>
+</header>
+
+<article class="wrap">
+  <div class="cs-body">
+    <h2 class="serif"><small>01 · Problem</small>Context lost between requests</h2>
+    <p>Deviations cover things like loan-to-value, repayment burden, interest rate, location mismatch and bureau score. Each one needs approval at the top. Because they come in one at a time, the approver opening request number three often can't see what happened to requests one and two.</p>
+    <h2 class="serif"><small>02 · Getting the problem right</small>Understand first, then design</h2>
+    <p>My first rule was to document exactly how deviations work today before touching the design. An early draft invented new fields and screens. I rejected it and restated the goal in one line:</p>
+    <p class="quote">In one look, the approver understands which deviations on this loan were already approved or rejected.</p>
+    <h2 class="serif"><small>03 · Options</small>Register vs. a history button</h2>
+    <div class="options">
+      <div class="option"><b>A separate Deviation tab (register)</b><span>A full register per loan with summary cards and notifications. Thorough, but another place to look.</span></div>
+      <div class="option chosen"><b>A History button inside the approval view</b><span>Opens right where the decision is made, covering all 5 deviation types. Smaller to build and impossible to miss.</span></div>
+    </div>
+    <p>One detail mattered a lot: the summary shows the <strong>approved value</strong> against policy, not the latest requested value. Showing the latest request made it look as if limits had already been agreed.</p>
+    <h2 class="serif"><small>04 · Specifying it</small>Edge cases before code</h2>
+    <p>The final prototype walks through 8 scenarios for developers, including the same value requested again, a rejection followed by a new request, and several deviations raised together.</p>
+    <h2 class="serif"><small>05 · Learnings</small>What this taught me</h2>
+    <ul>
+      <li><strong>Put information where the decision happens.</strong></li>
+      <li><strong>One misleading number can undo a good screen.</strong> Approved vs requested was the whole point.</li>
+      <li><strong>Saying no to a polished but wrong design</strong> saved more time than any shortcut.</li>
+    </ul>
+
+    <div class="next-cs">
+      <div><span>Next case study</span><b class="serif">Ledger health check</b></div>
+      <a href="ledger-health-check.html" class="btn primary">Read →</a>
+    </div>
+  </div>
+</article>
+
+<footer><div class="wrap"><span>© <span data-year></span> Dhiraj More</span><a href="../index.html">Home</a></div></footer>
+<script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>In-house HRMS — Dhiraj More</title>
+  <meta name="description" content="Case study: replacing a third-party HRMS with an in-house platform for attendance, hiring, payroll, expenses and exits.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%232f5bea'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='700' font-size='28' fill='white'>DM</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a href="../index.html" class="logo">Dhiraj More<span>.</span></a>
+    <div class="nav-links">
+      <a href="../index.html#work" class="keep">All work</a>
+      <a href="../resume.html" class="keep">Résumé</a>
+      <button class="theme-btn" aria-label="Toggle dark mode">☾</button>
+    </div>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="wrap">
+    <a href="../index.html#work" class="back">← Back to work</a>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap"><span class="tag accent">Employee platforms</span><span class="tag">HRMS · Payroll</span><span class="tag">Kaabil · Jun–Oct 2026</span></div>
+    <h1 class="serif">Replacing a paid HRMS with our own, from attendance to payroll</h1>
+    <p class="lead">Our employees clocked in, applied for leave and got paid through a third-party HR tool that didn't fit how a branch-heavy lender works. I was the PM on moving the whole employee lifecycle into our own platform, one module at a time, without disrupting a single payroll.</p>
+    <div class="meta"><div><span>Role</span><b>PM for the HRMS and payroll modules</b></div><div><span>Users</span><b>Employees, branch managers, HR, accounts</b></div><div><span>Scale</span><b>1,095 employees · 97 branches</b></div><div><span>Timeline</span><b>Jun – Oct 2026</b></div></div>
+    <div class="impact"><div><b>1,095</b><span>employees moved onto the in-house platform</span></div><div><b>97</b><span>branches, with face-verified app attendance</span></div><div><b>6</b><span>modules moved: records, attendance, hiring, payroll, expenses, exits</span></div></div>
+    <p class="note">Company, branch and people details are anonymised. Figures are rounded.</p>
+  </div>
+</header>
+
+<article class="wrap">
+  <div class="cs-body">
+    <h2 class="serif"><small>01 · Problem</small>An off-the-shelf tool in a branch-first company</h2>
+    <p>Most of our people work in branches and in the field, not at desks. The vendor tool kept HR data apart from our lending platform, so things like branch hierarchy, field roles and approvals had to be maintained twice. Payroll lived in spreadsheets on top of it.</p>
+    <h2 class="serif"><small>02 · Plan</small>Replace it module by module</h2>
+    <p>A big-bang switch on payroll is how people don't get paid. I sequenced the move so each module went live and settled before the next one depended on it:</p>
+    <div class="flow"><div>Employee records &amp; hierarchy</div><i>→</i><div>Attendance &amp; leave</div><i>→</i><div>Hiring &amp; e-signed letters</div><i>→</i><div>Payroll &amp; payouts</div><i>→</i><div>Exit &amp; full-and-final</div></div>
+    <p>For a while both systems ran side by side, and attendance moved over gradually as branches switched to the app.</p>
+    <h2 class="serif"><small>03 · What shipped</small>The main pieces</h2>
+    <ul>
+      <li><strong>Attendance in the field app</strong> with face verification, leave and regularisation.</li>
+      <li><strong>Paperless hiring:</strong> onboarding, offer approval and digitally signed appointment letters.</li>
+      <li><strong>Payroll in-system:</strong> salary calculated from attendance, bank accounts verified by penny-drop, compensation history with approvals by HR and accounts.</li>
+      <li><strong>Payouts with checks:</strong> incentives, arrears and bonus with maker-checker and CFO approval.</li>
+      <li><strong>Expenses and exits:</strong> employee claims with duplicate checks, and a full-and-final settlement flow.</li>
+    </ul>
+    <h2 class="serif"><small>04 · Decisions</small>Small fixes that prevented big problems</h2>
+    <ul>
+      <li><strong>Salary hold check.</strong> An employee put on hold after the salary sheet was generated could still get paid. Instead of a new workflow, I added a live status check right before payout verification, and linked it to backend work already in progress.</li>
+      <li><strong>Tight scope on arrears and bonus.</strong> I cut manual entry, payslip preview and an extra approval route from v1, and kept a simple upload with maker-checker. It went live quickly and stayed simple to audit.</li>
+      <li><strong>Launch notes checked against the system.</strong> Before announcing rent deposit tracking to accounts, I tested the email's claims against the live system and rewrote the parts that didn't match.</li>
+    </ul>
+    <h2 class="serif"><small>05 · Learnings</small>What I learned running an internal 0 → 1</h2>
+    <ul>
+      <li><strong>Internal users still churn,</strong> back to spreadsheets. Each module had to be easier than the workaround.</li>
+      <li><strong>Payroll needs boring guarantees:</strong> approvals, audit trails and a check right before money moves.</li>
+      <li><strong>Sequence by dependency, not by excitement.</strong> Records and attendance first made payroll almost easy.</li>
+    </ul>
+
+    <div class="next-cs">
+      <div><span>Next case study</span><b class="serif">Collections awareness dashboard</b></div>
+      <a href="collections-awareness.html" class="btn primary">Read →</a>
+    </div>
+  </div>
+</article>
+
+<footer><div class="wrap"><span>© <span data-year></span> Dhiraj More</span><a href="../index.html">Home</a></div></footer>
+<script src="../script.js"></script>
+</body>
+</html>
