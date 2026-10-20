@@ -95,106 +95,97 @@
     <div class="sec-head reveal">
       <div>
         <div class="label">Selected work</div>
-        <h2 class="serif">Case studies</h2>
+        <h2 class="serif">Three areas I own</h2>
       </div>
-      <p>Six pieces of work that show how I frame problems, use data and make trade-offs. Company, branch and people details are anonymised.</p>
+      <p>My work at Kaabil falls into three areas: credit decisions, collections and servicing, and employee platforms. Company, branch and people details are anonymised.</p>
     </div>
-
-    <div class="grid three">
-      <a href="work/why-loans-go-bad.html" class="card reveal">
-        <span class="theme">Data &amp; risk</span>
-        <h3>Why loans go bad: a study for the CEO that became a product</h3>
-        <p>Compared bad loans with a control group of good ones. The strongest early signal was in payments, which led to a pre-disbursal mandate check.</p>
-        <ul class="facts"><li>Bad loans were ~3× likelier when the first EMI missed auto-debit</li><li>20% riskiest loans held half the bad ones</li></ul>
-        <span class="more">Read case study →</span>
-      </a>
-      <a href="work/ai-credit-policy-check.html" class="card reveal">
-        <span class="theme">AI products</span>
-        <h3>AI Credit Policy Check: audit a loan file in minutes, and explain why</h3>
-        <p>A rules engine checks each file against credit policy. An LLM reads the documents and photos and writes the explanation an auditor can act on.</p>
-        <ul class="facts"><li>43 checks across 5 policy sections</li><li>~3 minutes and ~$0.05 per file</li></ul>
-        <span class="more">Read case study →</span>
-      </a>
-      <a href="work/in-house-hrms.html" class="card reveal">
-        <span class="theme">Employee platforms</span>
-        <h3>Replacing a paid HRMS with our own, from attendance to payroll</h3>
-        <p>Moved attendance, hiring, payroll, expenses and exits for every employee off a third-party tool and into our own platform.</p>
-        <ul class="facts"><li>1,095 employees across 97 branches</li><li>Salary now runs in-system from attendance</li></ul>
-        <span class="more">Read case study →</span>
-      </a>
-      <a href="work/collections-awareness.html" class="card reveal">
-        <span class="theme">Collections</span>
-        <h3>Showing branches who was reminded before the EMI date</h3>
-        <p>A dashboard and calling tools that bring calls, AI calls, WhatsApp, SMS and visits into one view for the pre-due window.</p>
-        <ul class="facts"><li>3 personas: management, branch manager, field app</li><li>Scope cut to what moves collection efficiency</li></ul>
-        <span class="more">Read case study →</span>
-      </a>
-      <a href="work/deviation-history.html" class="card reveal">
-        <span class="theme">Lending &amp; credit</span>
-        <h3>Giving the approver the full deviation history in one view</h3>
-        <p>Policy deviations on one loan arrived days apart. I redesigned the approval view so the approver sees what was already approved or rejected.</p>
-        <ul class="facts"><li>5 deviation types, 8 scenarios specified</li><li>Shows the approved value, not the latest request</li></ul>
-        <span class="more">Read case study →</span>
-      </a>
-      <a href="work/ledger-health-check.html" class="card reveal">
-        <span class="theme">Lending &amp; credit</span>
-        <h3>Simplifying ledger corrections until they were safe to ship</h3>
-        <p>Six prototype versions, an assumption tested against real data, and a maker-checker flow with 11 acceptance criteria.</p>
-        <ul class="facts"><li>Assumption checked on ~1,100 loans before building</li><li>Red flags removed for a neutral, reviewable view</li></ul>
-        <span class="more">Read case study →</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section id="all-work" style="padding-top:24px">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div>
-        <div class="label">Everything I've worked on</div>
-        <h2 class="serif">Work by theme</h2>
+    <div class="theme-block reveal">
+      <div class="theme-head">
+        <div class="theme-num">01</div>
+        <div>
+          <div class="label">AI &amp; data in credit decisions</div>
+          <h3 class="serif">Making lending decisions faster, safer and explainable</h3>
+          <p>Using data and AI where a loan is approved, checked and audited, while keeping every decision rule-based and auditable.</p>
+          <div class="chips"><span class="chip">LLM product design</span><span class="chip">Credit risk</span><span class="chip">Data analysis</span><span class="chip">Approval workflows</span></div>
+        </div>
       </div>
-      <p>The wider set of products I've specified and shipped at Kaabil since April 2026. Filter by theme.</p>
+      <div class="grid three">
+        <a href="work/ai-credit-policy-check.html" class="card reveal">
+          <h3>AI Credit Policy Check</h3>
+          <p>A rules engine audits each loan file against credit policy; an LLM reads documents and photos and explains every result.</p>
+          <ul class="facts"><li>43 checks across 5 policy sections</li><li>~3 min and ~$0.05 per file</li></ul>
+          <span class="more">Read case study →</span>
+        </a>
+        <a href="work/why-loans-go-bad.html" class="card reveal">
+          <h3>Why loans go bad</h3>
+          <p>A CEO-requested study against a control group of good loans, which turned into a new pre-disbursal check.</p>
+          <ul class="facts"><li>First-EMI auto-debit miss: ~3× bad-loan rate</li><li>Riskiest 20% held half the bad loans</li></ul>
+          <span class="more">Read case study →</span>
+        </a>
+        <a href="work/deviation-history.html" class="card reveal">
+          <h3>Deviation history for approvers</h3>
+          <p>One view of every policy deviation already approved or rejected on a loan, right where the approver decides.</p>
+          <ul class="facts"><li>5 deviation types, 8 scenarios specified</li><li>Shows approved value, not latest request</li></ul>
+          <span class="more">Read case study →</span>
+        </a>
+      </div>
     </div>
-    <div class="filters" role="group" aria-label="Filter by theme">
-      <button aria-pressed="true" data-f="all">All</button>
-      <button aria-pressed="false" data-f="ai">AI &amp; automation</button>
-      <button aria-pressed="false" data-f="lending">Lending &amp; credit</button>
-      <button aria-pressed="false" data-f="collections">Payments &amp; collections</button>
-      <button aria-pressed="false" data-f="people">Employee platforms</button>
-      <button aria-pressed="false" data-f="data">Data &amp; insight</button>
+    <div class="theme-block reveal">
+      <div class="theme-head">
+        <div class="theme-num">02</div>
+        <div>
+          <div class="label">Collections, payments &amp; servicing</div>
+          <h3 class="serif">Getting EMIs paid and keeping loan records right</h3>
+          <p>Tools for branch teams and accounts after the loan is disbursed: reminding borrowers, proving auto-debit works, and correcting ledgers safely.</p>
+          <div class="chips"><span class="chip">Multi-persona design</span><span class="chip">Payments &amp; NACH</span><span class="chip">Maker-checker controls</span><span class="chip">Dashboards</span></div>
+        </div>
+      </div>
+      <div class="grid three">
+        <a href="work/collections-awareness.html" class="card reveal">
+          <h3>Collections awareness</h3>
+          <p>One view of pre-due outreach across calls, AI calls, WhatsApp, SMS and visits, with calling tools for branches.</p>
+          <ul class="facts"><li>3 personas: management, branch, field app</li><li>Scope cut to what moves collections</li></ul>
+          <span class="more">Read case study →</span>
+        </a>
+        <a href="work/why-loans-go-bad.html#product" class="card reveal">
+          <h3>₹1 mandate check before disbursal</h3>
+          <p>A test debit proves the borrower's auto-debit works before the loan is paid out, straight from the study's main finding.</p>
+          <ul class="facts"><li>Blocks disbursal until a mandate passes</li><li>Small v1, one mandate at a time</li></ul>
+          <span class="more">Read case study →</span>
+        </a>
+        <a href="work/ledger-health-check.html" class="card reveal">
+          <h3>Ledger health check</h3>
+          <p>A maker-checker flow for correcting loan ledgers, simplified over six versions and validated with data first.</p>
+          <ul class="facts"><li>Assumption tested on ~1,100 loans</li><li>11 acceptance criteria</li></ul>
+          <span class="more">Read case study →</span>
+        </a>
+      </div>
     </div>
-    <div class="worklist">
-      <div class="wi star" data-t="ai lending"><div class="wt"><span class="tag accent">AI</span><span class="tag">Credit audit</span></div><h3>AI Credit Policy Check</h3><p>Rules engine plus LLM explanations that audit disbursed files against state credit policy.</p><a href="work/ai-credit-policy-check.html">Case study →</a></div>
-      <div class="wi" data-t="ai lending"><div class="wt"><span class="tag accent">AI</span><span class="tag">Underwriting</span></div><h3>Credit notes drafted from the first visit</h3><p>Turns the field officer's visit transcript into a first draft of the credit note.</p></div>
-      <div class="wi" data-t="ai collections"><div class="wt"><span class="tag accent">AI</span><span class="tag">Calling</span></div><h3>AI calls at sanction and in collections</h3><p>An AI confirmation call to the borrower at sanction, and AI tagging of collection call outcomes.</p></div>
-      <div class="wi" data-t="ai lending"><div class="wt"><span class="tag accent">AI</span><span class="tag">Compliance</span></div><h3>Real-time Aadhaar masking in photos</h3><p>Masks ID numbers in uploaded document photos as they're captured.</p></div>
-      <div class="wi" data-t="ai collections"><div class="wt"><span class="tag accent">AI</span><span class="tag">Settlements</span></div><h3>One-time settlement engine</h3><p>Settlement calculator with tranche schedules, IRR against cost of funds, an AI confirmation call and digital approvals.</p></div>
-
-      <div class="wi star" data-t="lending"><div class="wt"><span class="tag accent">LOS</span><span class="tag">Approvals</span></div><h3>Deviation history for approvers</h3><p>One view of every LTV, FOIR, ROI, location and bureau deviation on a loan.</p><a href="work/deviation-history.html">Case study →</a></div>
-      <div class="wi star" data-t="lending"><div class="wt"><span class="tag accent">LMS</span><span class="tag">Accounts</span></div><h3>Ledger health check</h3><p>Maker-checker flow for correcting loan ledger deductions and disbursement vouchers.</p><a href="work/ledger-health-check.html">Case study →</a></div>
-      <div class="wi" data-t="lending"><div class="wt"><span class="tag accent">LOS</span><span class="tag">Documents</span></div><h3>Digital agreements and a backup e-sign provider</h3><p>Aadhaar-OTP e-signing, with automatic fallback to a second provider when the first is down.</p></div>
-      <div class="wi" data-t="lending"><div class="wt"><span class="tag accent">LOS</span><span class="tag">KYC</span></div><h3>KYC lock and watermarking</h3><p>KYC documents locked after the credit stage and watermarked to prevent reuse.</p></div>
-      <div class="wi" data-t="lending"><div class="wt"><span class="tag accent">LMS</span><span class="tag">Servicing</span></div><h3>Loan restructuring and schedule regeneration</h3><p>Restructure and part-payment flows, with versioned repayment schedules.</p></div>
-      <div class="wi" data-t="lending"><div class="wt"><span class="tag accent">Audit</span><span class="tag">Field app</span></div><h3>Video-per-question audit verification</h3><p>Auditors record one short video per question, in English or Hindi, instead of one long video.</p></div>
-
-      <div class="wi star" data-t="collections"><div class="wt"><span class="tag accent">Collections</span><span class="tag">Dashboard</span></div><h3>Awareness calling and communication dashboard</h3><p>Pre-due outreach across calls, AI calls, WhatsApp, SMS and visits, for management and branches.</p><a href="work/collections-awareness.html">Case study →</a></div>
-      <div class="wi" data-t="collections lending"><div class="wt"><span class="tag accent">Payments</span><span class="tag">Risk</span></div><h3>₹1 mandate check before disbursal</h3><p>A test debit proves a borrower's auto-debit mandate works before the loan is paid out.</p><a href="work/why-loans-go-bad.html#product">Where it came from →</a></div>
-      <div class="wi" data-t="collections"><div class="wt"><span class="tag accent">Payments</span><span class="tag">Field app</span></div><h3>Mandate creation from the field app</h3><p>Field officers can set up an auto-debit mandate on a live loan for any person on it.</p></div>
-      <div class="wi" data-t="collections"><div class="wt"><span class="tag accent">Payments</span><span class="tag">Ops</span></div><h3>UPI mandates, bulk NACH and reconciliation fixes</h3><p>UPI autopay requests, bulk mandate upload and a maker-checker way to correct reconciliations.</p></div>
-      <div class="wi" data-t="collections"><div class="wt"><span class="tag accent">Treasury</span><span class="tag">Approvals</span></div><h3>Securitised pool payouts</h3><p>Monthly trustee payout sheets from actual collections, with maker, checker and CFO approval.</p></div>
-      <div class="wi" data-t="collections"><div class="wt"><span class="tag accent">Legal</span><span class="tag">Recovery</span></div><h3>Legal and recovery workflows</h3><p>Statutory notice generation, asset reconstruction tracking and auction listings.</p></div>
-
-      <div class="wi star" data-t="people"><div class="wt"><span class="tag accent">HRMS</span><span class="tag">0 → 1</span></div><h3>In-house HRMS</h3><p>Attendance, hiring, employee records and exits, replacing a third-party vendor.</p><a href="work/in-house-hrms.html">Case study →</a></div>
-      <div class="wi" data-t="people"><div class="wt"><span class="tag accent">Payroll</span><span class="tag">Payouts</span></div><h3>Payroll, incentives, arrears and bonus</h3><p>Penny-drop-verified bank accounts, approval chains and in-system salary runs.</p></div>
-      <div class="wi" data-t="people"><div class="wt"><span class="tag accent">Accounts</span><span class="tag">Payments</span></div><h3>Expenses, vendors, rent and utilities</h3><p>Vendor invoices with GST/TDS, rent deposits, petty cash and employee claims with duplicate checks.</p></div>
-      <div class="wi" data-t="people"><div class="wt"><span class="tag accent">Workflow</span><span class="tag">Governance</span></div><h3>K-Memo approvals</h3><p>Structured memos with approval chains and an audit trail, replacing approvals over email.</p></div>
-      <div class="wi" data-t="people"><div class="wt"><span class="tag accent">Platform</span><span class="tag">Access</span></div><h3>Roles and access</h3><p>Dynamic roles, one user with many roles, and cover for other branches without logging in again.</p></div>
-
-      <div class="wi star" data-t="data"><div class="wt"><span class="tag accent">Analytics</span><span class="tag">Credit</span></div><h3>Why loans go bad</h3><p>CEO-requested study of a loan pool against a matched control group.</p><a href="work/why-loans-go-bad.html">Case study →</a></div>
-      <div class="wi" data-t="data people"><div class="wt"><span class="tag accent">Analytics</span><span class="tag">Field force</span></div><h3>Field force retention and productivity</h3><p>How early exits and spend compare with the business each zone brings in, for leadership reviews.</p></div>
-      <div class="wi" data-t="data lending"><div class="wt"><span class="tag accent">Dashboards</span><span class="tag">LOS</span></div><h3>Sanction-to-disbursal funnel</h3><p>A self-serve view of where approved loans wait, by stage and branch.</p></div>
+    <div class="theme-block reveal">
+      <div class="theme-head">
+        <div class="theme-num">03</div>
+        <div>
+          <div class="label">Employee platforms, 0 → 1</div>
+          <h3 class="serif">Running a 1,000-person company on its own software</h3>
+          <p>Moving HR, payroll and internal approvals off vendors and spreadsheets onto one in-house platform, without disrupting a single payroll.</p>
+          <div class="chips"><span class="chip">0 → 1 platform</span><span class="chip">Migration planning</span><span class="chip">Payroll &amp; payouts</span><span class="chip">Stakeholder management</span></div>
+        </div>
+      </div>
+      <div class="grid">
+        <a href="work/in-house-hrms.html" class="card reveal">
+          <h3>In-house HRMS &amp; payroll</h3>
+          <p>Attendance, hiring, payroll, expenses and exits for every employee, replacing a third-party HR tool module by module.</p>
+          <ul class="facts"><li>1,095 employees across 97 branches</li><li>Salary now runs in-system from attendance</li></ul>
+          <span class="more">Read case study →</span>
+        </a>
+        <div class="card reveal">
+          <h3>Approvals, expenses &amp; payouts</h3>
+          <p>The workflows around the HRMS: structured memos with approval chains, employee claims, vendor invoices with GST/TDS, rent and incentive payouts, all with maker-checker and an audit trail.</p>
+          <ul class="facts"><li>Replaced approvals over email and spreadsheets</li><li>Duplicate-claim and pre-payout checks built in</li></ul>
+        </div>
+      </div>
     </div>
+    <p class="before reveal">Before Kaabil: <a href="work/healthletic-growth.html">doubling subscriptions at a health startup by fixing a leaky signup funnel →</a></p>
   </div>
 </section>
 

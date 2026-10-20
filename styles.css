@@ -302,3 +302,18 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
   .impact b { font-size: 28px; }
   section { padding: 56px 0; }
 }
+
+/* Work grouped into broad themes */
+.theme-block { padding: 36px 0; border-top: 1px solid var(--line); }
+.theme-block:first-of-type { border-top: 0; padding-top: 8px; }
+.theme-head { display: grid; grid-template-columns: 64px 1fr; gap: 20px; margin-bottom: 24px; }
+.theme-num { font: 500 40px/1 "Fraunces", Georgia, serif; color: var(--accent); }
+.theme-head h3 { font-size: clamp(24px, 3vw, 30px); line-height: 1.2; margin-bottom: 8px; }
+.theme-head p { color: var(--muted); max-width: 62ch; margin-bottom: 14px; }
+.grid.one { grid-template-columns: 1fr; max-width: 720px; }
+.before { margin-top: 32px; color: var(--muted); }
+.before a { color: var(--accent); font-weight: 600; }
+@media (max-width: 640px) {
+  .theme-head { grid-template-columns: 1fr; gap: 8px; }
+  .theme-num { font-size: 30px; }
+}
