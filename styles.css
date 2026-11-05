@@ -215,7 +215,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 .stage .stat b { font-size: 36px; line-height: 1.1; margin-bottom: 6px; color: var(--accent); }
 @media (max-width: 960px) {
   .hero.stage { padding: 56px 0 56px; }
-  .stage-content { grid-template-columns: 1fr; gap: 40px; }
+  .stage-content { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   .stage .hero-text h1 { max-width: 16ch; }
 }
 @media (max-width: 520px) {
