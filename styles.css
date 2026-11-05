@@ -200,10 +200,28 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
   .card { padding: 22px; }
 }
 
-/* Hero */
-.stage .hero-text { max-width: 620px; }
-.stage .stats { margin-top: 56px; max-width: 640px; }
-@media (max-width: 860px) { .stage .stats { margin-top: 36px; } }
+/* Hero: text on the left, key numbers in a card on the right */
+.hero.stage { padding: 88px 0 80px; }
+.stage-content { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 64px; align-items: center; }
+.stage .hero-text h1 { max-width: 14ch; margin: 20px 0 22px; }
+.stage .hero-text .lead { max-width: 56ch; }
+.stage .stats {
+  grid-template-columns: repeat(2, 1fr); gap: 0; margin: 0; max-width: none;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 20px; overflow: hidden;
+}
+.stage .stat { padding: 28px 26px; border-top: 0; }
+.stage .stat:nth-child(odd) { border-right: 1px solid var(--line); }
+.stage .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+.stage .stat b { font-size: 36px; line-height: 1.1; margin-bottom: 6px; color: var(--accent); }
+@media (max-width: 960px) {
+  .hero.stage { padding: 56px 0 56px; }
+  .stage-content { grid-template-columns: 1fr; gap: 40px; }
+  .stage .hero-text h1 { max-width: 16ch; }
+}
+@media (max-width: 520px) {
+  .stage .stat { padding: 20px 18px; }
+  .stage .stat b { font-size: 28px; }
+}
 
 /* Featured case studies: 3-up on desktop */
 .grid.three { grid-template-columns: repeat(3, 1fr); }
